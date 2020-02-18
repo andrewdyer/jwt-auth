@@ -1,5 +1,13 @@
 # JWT Auth
 
+[![Latest Stable Version](https://poser.pugx.org/andrewdyer/jwt-auth/v/stable)](https://packagist.org/packages/andrewdyer/jwt-auth)
+[![Total Downloads](https://poser.pugx.org/andrewdyer/jwt-auth/downloads)](https://packagist.org/packages/andrewdyer/jwt-auth)
+[![Daily Downloads](https://poser.pugx.org/andrewdyer/jwt-auth/d/daily)](https://packagist.org/packages/andrewdyer/jwt-auth)
+[![Monthly Downloads](https://poser.pugx.org/andrewdyer/jwt-auth/d/monthly)](https://packagist.org/packages/andrewdyer/jwt-auth)
+[![Latest Unstable Version](https://poser.pugx.org/andrewdyer/jwt-auth/v/unstable)](https://packagist.org/packages/andrewdyer/jwt-auth)
+[![License](https://poser.pugx.org/andrewdyer/jwt-auth/license)](https://packagist.org/packages/andrewdyer/jwt-auth)
+[![composer.lock](https://poser.pugx.org/andrewdyer/jwt-auth/composerlock)](https://packagist.org/packages/andrewdyer/jwt-auth)
+
 A simple framework agnostic JSON Web Token authentication solution.
 
 ## License
