@@ -1,7 +1,13 @@
 {
     "name": "andrewdyer/jwt-auth",
     "description": "A simple framework agnostic JSON Web Token authentication solution",
-    "keywords": [],
+    "keywords": [
+        "php",
+        "jwt",
+        "jwt-auth",
+        "jwt-authentication",
+        "jwt-token"
+    ],
     "type": "library",
     "license": "MIT",
     "authors": [
