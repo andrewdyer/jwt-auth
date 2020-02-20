@@ -28,11 +28,11 @@ $jwtProvider = new App\Providers\JwtProvider();
 
 // Build up jwt claims
 $claimsFactory = new Anddye\JwtAuth\ClaimsFactory::build([
-    'exp' => '',
-    'iat' => '',
-    'iss' => '',
-    'jti' => '',
-    'nbj' => '',
+    'exp' => 1582243200', // Friday, 21 February 2020 00:00:00
+    'iat' => 1582193571', // Thursday, 20 February 2020 10:12:51
+    'iss' => 'https://example.com',
+    'jti' => 'fVcx9BJHqh',
+    'nbj' => '1582193571', // Thursday, 20 February 2020 10:12:51
 ]);
 
 // Bring everything together to create a jwt auth instance
@@ -77,6 +77,24 @@ class JwtProvider implements JwtProviderInterface
         // TODO: Encode claims and create a JWT token somehow
     }
 }
+```
+
+### Claims Factory
+| Option | Type | Description |
+| --- | --- | --- |
+| exp | int | Time after which the JWT expires. |
+| iat | int | Time at which the JWT was issued. |
+| iss | string | Issuer of the JWT. |
+| jti | string | Unique identifier; can be used to prevent the JWT from being replayed. |
+| nbj | int | Time before which the JWT must not be accepted for processing. |
+
+```php
+$claimsFactory = new Anddye\JwtAuth\ClaimsFactory();
+$claimsFactory->setExp(1582243200); // Friday, 21 February 2020 00:00:00
+$claimsFactory->setIat(1582193571); // Thursday, 20 February 2020 10:12:51
+$claimsFactory->setIss('https://example.com');
+$claimsFactory->setJti('fVcx9BJHqh');
+$claimsFactory->setNbj(1582193571); // Thursday, 20 February 2020 10:12:51
 ```
 
 ### Attempt with credentials
