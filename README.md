@@ -100,4 +100,6 @@ if (!$actor = $jwtAuth->authenticate($token)->getActor()) {
 ## Support
 If you're using this package, I'd love to hear your thoughts! Feel free to contact me on [Twitter](https://twitter.com/andyer92).
 
+Need to see an example? Check out [this tutorial](https://github.com/andrewdyer/jwt-auth/wiki/Slim-3-Example) on how to intergate this library into a [Slim 3](http://www.slimframework.com/docs/v3/) project.
+
 Found a bug? Please report it using the [issue tracker](https://github.com/andrewdyer/jwt-auth/issues), or better yet, fork the repository and submit a pull request.
