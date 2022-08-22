@@ -1,14 +1,12 @@
-# JWT Auth
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andrewdyer/jwt-auth/b14d72673a415ec56184636ffcbb91b26c3d1c2b/.github/logo.png" alt="JWT Auth" />
+</p>
 
-[![Latest Stable Version](https://poser.pugx.org/andrewdyer/jwt-auth/v/stable)](https://packagist.org/packages/andrewdyer/jwt-auth)
-[![Total Downloads](https://poser.pugx.org/andrewdyer/jwt-auth/downloads)](https://packagist.org/packages/andrewdyer/jwt-auth)
-[![Daily Downloads](https://poser.pugx.org/andrewdyer/jwt-auth/d/daily)](https://packagist.org/packages/andrewdyer/jwt-auth)
-[![Monthly Downloads](https://poser.pugx.org/andrewdyer/jwt-auth/d/monthly)](https://packagist.org/packages/andrewdyer/jwt-auth)
-[![Latest Unstable Version](https://poser.pugx.org/andrewdyer/jwt-auth/v/unstable)](https://packagist.org/packages/andrewdyer/jwt-auth)
-[![License](https://poser.pugx.org/andrewdyer/jwt-auth/license)](https://packagist.org/packages/andrewdyer/jwt-auth)
-[![composer.lock](https://poser.pugx.org/andrewdyer/jwt-auth/composerlock)](https://packagist.org/packages/andrewdyer/jwt-auth)
-
-A simple framework agnostic JSON Web Token authentication solution.
+<p align="center">
+    <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/downloads?style=for-the-badge" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/v?style=for-the-badge" alt="Latest Stable Version"></a>
+    <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/license?style=for-the-badge" alt="License"></a>
+</p>
 
 ## License
 Licensed under MIT. Totally free for private or commercial projects.
@@ -28,8 +26,8 @@ $jwtProvider = new App\Providers\JwtProvider();
 
 // Build up jwt claims
 $claimsFactory = new Anddye\JwtAuth\ClaimsFactory::build([
-    'exp' => 1582243200', // Friday, 21 February 2020 00:00:00
-    'iat' => 1582193571', // Thursday, 20 February 2020 10:12:51
+    'exp' => 1582243200, // Friday, 21 February 2020 00:00:00
+    'iat' => 1582193571, // Thursday, 20 February 2020 10:12:51
     'iss' => 'https://example.com',
     'jti' => 'fVcx9BJHqh',
     'nbj' => '1582193571', // Thursday, 20 February 2020 10:12:51
