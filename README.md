@@ -1,5 +1,7 @@
 <h1 align="center">JWT Auth</h1>
 
+<p align="center">A simple framework-agnostic JSON Web Token authentication solution.</p>
+
 <p align="center">
     <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/downloads?style=for-the-badge" alt="Total Downloads"></a>
     <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/v?style=for-the-badge" alt="Latest Stable Version"></a>
