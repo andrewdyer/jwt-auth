@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/andrewdyer/jwt-auth/b14d72673a415ec56184636ffcbb91b26c3d1c2b/.github/logo.png" alt="JWT Auth" />
-</p>
+<h1 align="center">JWT Auth</h1>
 
 <p align="center">
     <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/downloads?style=for-the-badge" alt="Total Downloads"></a>
