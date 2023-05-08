@@ -34,7 +34,7 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "symfony/var-dumper": "^5.0",
         "nesbot/carbon": "^2.30",
-        "firebase/php-jwt": "^5.0"
+        "firebase/php-jwt": "^5.0 || ^6.0"
     },
     "scripts": {
         "cs": [
