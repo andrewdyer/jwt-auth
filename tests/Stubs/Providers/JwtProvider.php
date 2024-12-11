@@ -2,7 +2,7 @@
 
 namespace Anddye\JWTAuth\Tests\Stubs\Providers;
 
-use Anddye\JWTAuth\Providers\JWTProviderInterface;
+use Anddye\JWTAuth\Interfaces\JWTProviderInterface;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 

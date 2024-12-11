@@ -2,7 +2,7 @@
 
 namespace Anddye\JWTAuth\Tests\Stubs\Providers;
 
-use Anddye\JWTAuth\Providers\AuthProviderInterface;
+use Anddye\JWTAuth\Interfaces\AuthProviderInterface;
 use Anddye\JWTAuth\Tests\Stubs\Models\User;
 
 class AuthProvider implements AuthProviderInterface

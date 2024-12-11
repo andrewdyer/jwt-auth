@@ -41,7 +41,7 @@ $jwtAuth = new JWTAuth($authProvider, $jwtProvider, $claimsFactory);
 ```php
 namespace App\Providers;
 
-use Anddye\JWTAuth\Providers\AuthProviderInterface;
+use Anddye\JWTAuth\Interfaces\AuthProviderInterface;
 
 class AuthProvider implements AuthProviderInterface
 {
@@ -60,9 +60,9 @@ class AuthProvider implements AuthProviderInterface
 ### JWT Provider
 
 ```php
-namespace Anddye\JWTAuth\Tests\Stubs\Providers;
+namespace App\Providers;
 
-use Anddye\JWTAuth\Providers\JWTProviderInterface;
+use Anddye\JWTAuth\Interfaces\JWTProviderInterface;
 
 class JWTProvider implements JWTProviderInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Anddye\JWTAuth\Providers;
+namespace Anddye\JWTAuth\Interfaces;
 
 interface AuthProviderInterface
 {
