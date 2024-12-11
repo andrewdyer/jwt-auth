@@ -7,6 +7,7 @@ use Anddye\JWTAuth\Interfaces\JWTSubject;
 
 class Claims implements ClaimsInterface
 {
+    private string $aud;
     private int $exp;
     private int $iat;
     private string $iss;
@@ -84,5 +85,17 @@ class Claims implements ClaimsInterface
     public function getSub(): JWTSubject
     {
         return $this->sub;
+    }
+
+    public function getAud(): string
+    {
+        return $this->aud;
+    }
+
+    public function setAud(string $aud): self
+    {
+        $this->aud = $aud;
+
+        return $this;
     }
 }

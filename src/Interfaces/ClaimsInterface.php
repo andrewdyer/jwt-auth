@@ -4,6 +4,8 @@ namespace Anddye\JWTAuth\Interfaces;
 
 interface ClaimsInterface
 {
+    public function getAud(): string;
+
     public function setExp(int $exp);
 
     public function setIat(int $iat);
@@ -13,6 +15,8 @@ interface ClaimsInterface
     public function setJti(string $jti);
 
     public function setNbf(int $nbf);
+
+    public function setAud(string $aud);
 
     public function getExp(): int;
 

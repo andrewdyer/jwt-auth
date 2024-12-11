@@ -19,11 +19,12 @@ final class JWTAuthTest extends TestCase
         $authProvider = new AuthProvider();
         $jwtProvider = new JWTProvider();
         $claimsFactory = ClaimsFactory::build([
-            'exp' => 1234567890,
-            'iat' => 1234567890,
             'iss' => 'https://andrewdyer.rocks',
-            'jti' => 'fVcx9BJHqh',
+            'aud' => 'https://andrewdyer.rocks',
+            'exp' => 1234567890,
             'nbf' => 1234567890,
+            'iat' => 1234567890,
+            'jti' => 'fVcx9BJHqh',
         ]);
 
         $this->jwtAuth = new JWTAuth($authProvider, $jwtProvider, $claimsFactory);

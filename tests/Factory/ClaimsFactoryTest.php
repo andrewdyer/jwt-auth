@@ -25,6 +25,7 @@ final class ClaimsFactoryTest extends TestCase
             'iss' => 'issuer',
             'jti' => 'jwt_id',
             'nbf' => 1234567890,
+            'aud' => 'audience',
         ];
 
         $claims = ClaimsFactory::build($claimsData);
@@ -35,5 +36,6 @@ final class ClaimsFactoryTest extends TestCase
         $this->assertEquals('issuer', $claims->getIss());
         $this->assertEquals('jwt_id', $claims->getJti());
         $this->assertEquals(1234567890, $claims->getNbf());
+        $this->assertEquals('audience', $claims->getAud());
     }
 }

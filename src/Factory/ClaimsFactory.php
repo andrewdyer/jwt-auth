@@ -10,6 +10,10 @@ class ClaimsFactory
     {
         $claimsInstance = new Claims();
 
+        if (isset($claims['aud'])) {
+            $claimsInstance->setAud($claims['aud']);
+        }
+
         if (isset($claims['exp'])) {
             $claimsInstance->setExp($claims['exp']);
         }

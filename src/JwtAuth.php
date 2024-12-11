@@ -53,6 +53,7 @@ final class JWTAuth
             'iss' => $this->claims->getIss(),
             'jti' => $this->claims->getJti(),
             'nbf' => $this->claims->getNbf(),
+            'aud' => $this->claims->getAud(),
             'sub' => $this->claims->getSub()->getJWTIdentifier(),
         ];
     }
