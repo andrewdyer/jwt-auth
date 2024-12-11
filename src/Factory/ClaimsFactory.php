@@ -2,102 +2,34 @@
 
 namespace Anddye\JWTAuth\Factory;
 
-final class ClaimsFactory
+use Anddye\JWTAuth\Claims;
+
+class ClaimsFactory
 {
-    protected int $exp;
-
-    protected int $iat;
-
-    protected string $iss;
-
-    protected string $jti;
-
-    protected int $nbf;
-
-    public static function build(array $claims): ClaimsFactory
+    public static function build(array $claims): Claims
     {
-        $claimsFactory = new ClaimsFactory();
+        $claimsInstance = new Claims();
 
         if (isset($claims['exp'])) {
-            $claimsFactory->setExp($claims['exp']);
+            $claimsInstance->setExp($claims['exp']);
         }
 
         if (isset($claims['iat'])) {
-            $claimsFactory->setIat($claims['iat']);
+            $claimsInstance->setIat($claims['iat']);
         }
 
         if (isset($claims['iss'])) {
-            $claimsFactory->setIss($claims['iss']);
+            $claimsInstance->setIss($claims['iss']);
         }
 
         if (isset($claims['jti'])) {
-            $claimsFactory->setJti($claims['jti']);
+            $claimsInstance->setJti($claims['jti']);
         }
 
         if (isset($claims['nbf'])) {
-            $claimsFactory->setNbf($claims['nbf']);
+            $claimsInstance->setNbf($claims['nbf']);
         }
 
-        return $claimsFactory;
-    }
-
-    public function getExp(): int
-    {
-        return $this->exp;
-    }
-
-    public function getIat(): int
-    {
-        return $this->iat;
-    }
-
-    public function getIss(): string
-    {
-        return $this->iss;
-    }
-
-    public function getJti(): string
-    {
-        return $this->jti;
-    }
-
-    public function getNbf(): int
-    {
-        return $this->nbf;
-    }
-
-    public function setExp(int $exp): self
-    {
-        $this->exp = $exp;
-
-        return $this;
-    }
-
-    public function setIat(int $iat): self
-    {
-        $this->iat = $iat;
-
-        return $this;
-    }
-
-    public function setIss(string $iss): self
-    {
-        $this->iss = $iss;
-
-        return $this;
-    }
-
-    public function setJti(string $jti): self
-    {
-        $this->jti = $jti;
-
-        return $this;
-    }
-
-    public function setNbf(int $nbf): self
-    {
-        $this->nbf = $nbf;
-
-        return $this;
+        return $claimsInstance;
     }
 }

@@ -3,7 +3,7 @@
 namespace Anddye\JWTAuth;
 
 use Anddye\JWTAuth\Contracts\JWTSubject;
-use Anddye\JWTAuth\Factory\ClaimsFactory;
+use Anddye\JWTAuth\Interfaces\ClaimsInterface;
 use Anddye\JWTAuth\Providers\AuthProviderInterface;
 use Anddye\JWTAuth\Providers\JWTProviderInterface;
 
@@ -13,16 +13,16 @@ final class JWTAuth
 
     protected AuthProviderInterface $authProvider;
 
-    protected ClaimsFactory $claimsFactory;
+    protected ClaimsInterface $claims;
 
     protected JWTProviderInterface $jwtProvider;
 
-    protected array $claims = [];
+    protected array $claimsData = [];
 
-    public function __construct(AuthProviderInterface $authProvider, JWTProviderInterface $jwtProvider, ClaimsFactory $claimsFactory)
+    public function __construct(AuthProviderInterface $authProvider, JWTProviderInterface $jwtProvider, ClaimsInterface $claims)
     {
         $this->authProvider = $authProvider;
-        $this->claimsFactory = $claimsFactory;
+        $this->claims = $claims;
         $this->jwtProvider = $jwtProvider;
     }
 
@@ -79,18 +79,18 @@ final class JWTAuth
     protected function make(): array
     {
         $claims = [];
-        $claims['exp'] = $this->claimsFactory->getExp();
-        $claims['iat'] = $this->claimsFactory->getIat();
-        $claims['iss'] = $this->claimsFactory->getIss();
-        $claims['jti'] = $this->claimsFactory->getJti();
-        $claims['nbf'] = $this->claimsFactory->getNbf();
+        $claims['exp'] = $this->claims->getExp();
+        $claims['iat'] = $this->claims->getIat();
+        $claims['iss'] = $this->claims->getIss();
+        $claims['jti'] = $this->claims->getJti();
+        $claims['nbf'] = $this->claims->getNbf();
 
-        return array_merge($this->claims, $claims);
+        return array_merge($this->claimsData, $claims);
     }
 
     protected function withClaims(array $claims): self
     {
-        $this->claims = $claims;
+        $this->claimsData = $claims;
 
         return $this;
     }

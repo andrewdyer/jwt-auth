@@ -25,7 +25,7 @@ $authProvider = new App\Providers\AuthProvider();
 $jwtProvider = new App\Providers\JWTProvider();
 
 // Build up jwt claims
-$claimsFactory = new Anddye\JWTAuth\ClaimsFactory::build([
+$claimsFactory = new Anddye\JWTAuth\Factory\ClaimsFactory::build([
     'exp' => 1582243200, // Friday, 21 February 2020 00:00:00
     'iat' => 1582193571, // Thursday, 20 February 2020 10:12:51
     'iss' => 'https://example.com',
@@ -88,7 +88,7 @@ class JWTProvider implements JWTProviderInterface
 | nbj | int | Time before which the JWT must not be accepted for processing. |
 
 ```php
-$claimsFactory = new Anddye\JWTAuth\ClaimsFactory();
+$claimsFactory = new nddye\JWTAuth\Factory\ClaimsFactory();
 $claimsFactory->setExp(1582243200); // Friday, 21 February 2020 00:00:00
 $claimsFactory->setIat(1582193571); // Thursday, 20 February 2020 10:12:51
 $claimsFactory->setIss('https://example.com');
