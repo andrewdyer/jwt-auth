@@ -30,10 +30,7 @@ final class JWTAuthTest extends TestCase
         $this->jwtAuth = new JWTAuth($authProvider, $jwtProvider, $claimsFactory);
     }
 
-    /**
-     * @test
-     */
-    public function can_get_token_with_valid_login_credentials()
+    public function testCanGetTokenWithValidLoginCredentials()
     {
         $username = 'andrewdyer';
         $password = 'password';
@@ -43,10 +40,7 @@ final class JWTAuthTest extends TestCase
         $this->assertIsString($token);
     }
 
-    /**
-     * @test
-     */
-    public function cant_get_token_with_incorrect_login_credentials()
+    public function testCantGetTokenWithIncorrectLoginCredentials()
     {
         $username = 'andrewdyer';
         $password = 'pa55w0rd';
