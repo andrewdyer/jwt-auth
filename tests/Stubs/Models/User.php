@@ -1,10 +1,10 @@
 <?php
 
-namespace Anddye\JwtAuth\Tests\Stubs\Models;
+namespace Anddye\JWTAuth\Tests\Stubs\Models;
 
-use Anddye\JwtAuth\Contracts\JwtSubject;
+use Anddye\JWTAuth\Contracts\JWTSubject;
 
-class User implements JwtSubject
+class User implements JWTSubject
 {
     protected int $id;
 
@@ -17,7 +17,7 @@ class User implements JwtSubject
         return $this->id;
     }
 
-    public function getJwtIdentifier(): int
+    public function getJWTIdentifier(): int
     {
         return $this->getId();
     }

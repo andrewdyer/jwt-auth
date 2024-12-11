@@ -1,12 +1,12 @@
 <?php
 
-namespace Anddye\JwtAuth\Tests\Stubs\Providers;
+namespace Anddye\JWTAuth\Tests\Stubs\Providers;
 
-use Anddye\JwtAuth\Providers\JwtProviderInterface;
+use Anddye\JWTAuth\Providers\JWTProviderInterface;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-class JwtProvider implements JwtProviderInterface
+class JWTProvider implements JWTProviderInterface
 {
     protected string $algorithm;
 

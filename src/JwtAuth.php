@@ -1,14 +1,14 @@
 <?php
 
-namespace Anddye\JwtAuth;
+namespace Anddye\JWTAuth;
 
-use Anddye\JwtAuth\Contracts\JwtSubject;
-use Anddye\JwtAuth\Providers\AuthProviderInterface;
-use Anddye\JwtAuth\Providers\JwtProviderInterface;
+use Anddye\JWTAuth\Contracts\JWTSubject;
+use Anddye\JWTAuth\Providers\AuthProviderInterface;
+use Anddye\JWTAuth\Providers\JWTProviderInterface;
 
-final class JwtAuth
+final class JWTAuth
 {
-    protected ?JwtSubject $actor = null;
+    protected ?JWTSubject $actor = null;
 
     protected AuthProviderInterface $authProvider;
 
@@ -16,7 +16,7 @@ final class JwtAuth
 
     protected Parser $parser;
 
-    public function __construct(AuthProviderInterface $authProvider, JwtProviderInterface $jwtProvider, ClaimsFactory $claimsFactory)
+    public function __construct(AuthProviderInterface $authProvider, JWTProviderInterface $jwtProvider, ClaimsFactory $claimsFactory)
     {
         $this->authProvider = $authProvider;
         $this->factory = new Factory($claimsFactory, $jwtProvider);
@@ -41,24 +41,24 @@ final class JwtAuth
         return $this;
     }
 
-    public function getActor(): ?JwtSubject
+    public function getActor(): ?JWTSubject
     {
         return $this->actor;
     }
 
-    protected function fromSubject(JwtSubject $subject): string
+    protected function fromSubject(JWTSubject $subject): string
     {
         return $this->factory->encode($this->makePayload($subject));
     }
 
-    protected function getClaimsForSubject(JwtSubject $subject): array
+    protected function getClaimsForSubject(JWTSubject $subject): array
     {
         return [
-            'sub' => $subject->getJwtIdentifier(),
+            'sub' => $subject->getJWTIdentifier(),
         ];
     }
 
-    protected function makePayload(JwtSubject $subject): array
+    protected function makePayload(JWTSubject $subject): array
     {
         return $this->factory->withClaims($this->getClaimsForSubject($subject))->make();
     }

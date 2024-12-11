@@ -22,10 +22,10 @@ composer require andrewdyer/jwt-auth
 $authProvider = new App\Providers\AuthProvider();
 
 // Create a new jwt provider instance
-$jwtProvider = new App\Providers\JwtProvider();
+$jwtProvider = new App\Providers\JWTProvider();
 
 // Build up jwt claims
-$claimsFactory = new Anddye\JwtAuth\ClaimsFactory::build([
+$claimsFactory = new Anddye\JWTAuth\ClaimsFactory::build([
     'exp' => 1582243200, // Friday, 21 February 2020 00:00:00
     'iat' => 1582193571, // Thursday, 20 February 2020 10:12:51
     'iss' => 'https://example.com',
@@ -34,36 +34,37 @@ $claimsFactory = new Anddye\JwtAuth\ClaimsFactory::build([
 ]);
 
 // Bring everything together to create a jwt auth instance
-$jwtAuth = new JwtAuth($authProvider, $jwtProvider, $claimsFactory);
+$jwtAuth = new JWTAuth($authProvider, $jwtProvider, $claimsFactory);
 ```
 
 ### Auth Provider
 ```php
 namespace App\Providers;
 
-use Anddye\JwtAuth\Providers\AuthProviderInterface;
+use Anddye\JWTAuth\Providers\AuthProviderInterface;
 
 class AuthProvider implements AuthProviderInterface
 {
     public function byCredentials(string $username, string $password)
     {
-        // TODO: Validate username / password and return an instance of `Anddye\JwtAuth\Contracts\JwtSubject`
+        // TODO: Validate username / password and return an instance of `Anddye\JWTAuth\Contracts\JWTSubject`
     }
 
     public function byId(int $id)
     {
-        // TODO: Find a user by id and return an instance of `Anddye\JwtAuth\Contracts\JwtSubject` if exists
+        // TODO: Find a user by id and return an instance of `Anddye\JWTAuth\Contracts\JWTSubject` if exists
     }
 }
 ```
 
 ### JWT Provider
+
 ```php
-namespace Anddye\JwtAuth\Tests\Stubs\Providers;
+namespace Anddye\JWTAuth\Tests\Stubs\Providers;
 
-use Anddye\JwtAuth\Providers\JwtProviderInterface;
+use Anddye\JWTAuth\Providers\JWTProviderInterface;
 
-class JwtProvider implements JwtProviderInterface
+class JWTProvider implements JWTProviderInterface
 {
     public function decode(string $token)
     {
@@ -87,7 +88,7 @@ class JwtProvider implements JwtProviderInterface
 | nbj | int | Time before which the JWT must not be accepted for processing. |
 
 ```php
-$claimsFactory = new Anddye\JwtAuth\ClaimsFactory();
+$claimsFactory = new Anddye\JWTAuth\ClaimsFactory();
 $claimsFactory->setExp(1582243200); // Friday, 21 February 2020 00:00:00
 $claimsFactory->setIat(1582193571); // Thursday, 20 February 2020 10:12:51
 $claimsFactory->setIss('https://example.com');

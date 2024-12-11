@@ -1,25 +1,25 @@
 <?php
 
-namespace Anddye\JwtAuth\Tests\Integration;
+namespace Anddye\JWTAuth\Tests\Integration;
 
-use Anddye\JwtAuth\ClaimsFactory;
-use Anddye\JwtAuth\Contracts\JwtSubject;
-use Anddye\JwtAuth\JwtAuth;
-use Anddye\JwtAuth\Tests\Stubs\Providers\AuthProvider;
-use Anddye\JwtAuth\Tests\Stubs\Providers\JwtProvider;
+use Anddye\JWTAuth\ClaimsFactory;
+use Anddye\JWTAuth\Contracts\JWTSubject;
+use Anddye\JWTAuth\JWTAuth;
+use Anddye\JWTAuth\Tests\Stubs\Providers\AuthProvider;
+use Anddye\JWTAuth\Tests\Stubs\Providers\JWTProvider;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
-final class JwtAuthTest extends TestCase
+final class JWTAuthTest extends TestCase
 {
-    protected JwtAuth $jwtAuth;
+    protected JWTAuth $jwtAuth;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $authProvider = new AuthProvider();
-        $jwtProvider = new JwtProvider();
+        $jwtProvider = new JWTProvider();
         $claimsFactory = ClaimsFactory::build([
             'exp' => Carbon::now()->addMinute(5)->getTimestamp(),
             'iat' => Carbon::now()->getTimestamp(),
@@ -28,7 +28,7 @@ final class JwtAuthTest extends TestCase
             'nbf' => Carbon::now()->getTimestamp(),
         ]);
 
-        $this->jwtAuth = new JwtAuth($authProvider, $jwtProvider, $claimsFactory);
+        $this->jwtAuth = new JWTAuth($authProvider, $jwtProvider, $claimsFactory);
     }
 
     /**
@@ -44,7 +44,7 @@ final class JwtAuthTest extends TestCase
         $actor = $this->jwtAuth->authenticate($token)->getActor();
 
         $this->assertNotNull($actor);
-        $this->assertInstanceOf(JwtSubject::class, $actor);
+        $this->assertInstanceOf(JWTSubject::class, $actor);
     }
 
     /**

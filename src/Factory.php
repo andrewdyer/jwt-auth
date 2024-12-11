@@ -1,8 +1,8 @@
 <?php
 
-namespace Anddye\JwtAuth;
+namespace Anddye\JWTAuth;
 
-use Anddye\JwtAuth\Providers\JwtProviderInterface;
+use Anddye\JWTAuth\Providers\JWTProviderInterface;
 
 final class Factory
 {
@@ -10,9 +10,9 @@ final class Factory
 
     protected ClaimsFactory $claimsFactory;
 
-    protected JwtProviderInterface $jwtProvider;
+    protected JWTProviderInterface $jwtProvider;
 
-    public function __construct(ClaimsFactory $claimsFactory, JwtProviderInterface $jwtProvider)
+    public function __construct(ClaimsFactory $claimsFactory, JWTProviderInterface $jwtProvider)
     {
         $this->claimsFactory = $claimsFactory;
         $this->jwtProvider = $jwtProvider;

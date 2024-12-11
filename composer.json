@@ -18,12 +18,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Anddye\\JwtAuth\\": "src"
+            "Anddye\\JWTAuth\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Anddye\\JwtAuth\\Tests\\": "tests"
+            "Anddye\\JWTAuth\\Tests\\": "tests"
         }
     },
     "require": {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Anddye\JwtAuth\Tests\Unit;
+namespace Anddye\JWTAuth\Tests\Unit;
 
-use Anddye\JwtAuth\ClaimsFactory;
+use Anddye\JWTAuth\ClaimsFactory;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 

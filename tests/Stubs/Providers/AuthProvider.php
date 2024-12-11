@@ -1,9 +1,9 @@
 <?php
 
-namespace Anddye\JwtAuth\Tests\Stubs\Providers;
+namespace Anddye\JWTAuth\Tests\Stubs\Providers;
 
-use Anddye\JwtAuth\Providers\AuthProviderInterface;
-use Anddye\JwtAuth\Tests\Stubs\Models\User;
+use Anddye\JWTAuth\Providers\AuthProviderInterface;
+use Anddye\JWTAuth\Tests\Stubs\Models\User;
 
 class AuthProvider implements AuthProviderInterface
 {

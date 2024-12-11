@@ -1,14 +1,14 @@
 <?php
 
-namespace Anddye\JwtAuth;
+namespace Anddye\JWTAuth;
 
-use Anddye\JwtAuth\Providers\JwtProviderInterface;
+use Anddye\JWTAuth\Providers\JWTProviderInterface;
 
 final class Parser
 {
-    protected JwtProviderInterface $jwtProvider;
+    protected JWTProviderInterface $jwtProvider;
 
-    public function __construct(JwtProviderInterface $jwtProvider)
+    public function __construct(JWTProviderInterface $jwtProvider)
     {
         $this->jwtProvider = $jwtProvider;
     }

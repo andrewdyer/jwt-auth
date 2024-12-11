@@ -1,10 +1,10 @@
 <?php
 
-namespace Anddye\JwtAuth\Tests\Unit;
+namespace Anddye\JWTAuth\Tests\Unit;
 
-use Anddye\JwtAuth\ClaimsFactory;
-use Anddye\JwtAuth\Factory;
-use Anddye\JwtAuth\Tests\Stubs\Providers\JwtProvider;
+use Anddye\JWTAuth\ClaimsFactory;
+use Anddye\JWTAuth\Factory;
+use Anddye\JWTAuth\Tests\Stubs\Providers\JWTProvider;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +24,7 @@ final class FactoryTest extends TestCase
             'nbf' => Carbon::now()->getTimestamp(),
         ]);
 
-        $jwtProvider = new JwtProvider();
+        $jwtProvider = new JWTProvider();
 
         $this->factory = new Factory($claimsFactory, $jwtProvider);
     }

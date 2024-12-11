@@ -1,11 +1,11 @@
 <?php
 
-namespace Anddye\JwtAuth\Tests\Unit;
+namespace Anddye\JWTAuth\Tests\Unit;
 
-use Anddye\JwtAuth\ClaimsFactory;
-use Anddye\JwtAuth\Factory;
-use Anddye\JwtAuth\Parser;
-use Anddye\JwtAuth\Tests\Stubs\Providers\JwtProvider;
+use Anddye\JWTAuth\ClaimsFactory;
+use Anddye\JWTAuth\Factory;
+use Anddye\JWTAuth\Parser;
+use Anddye\JWTAuth\Tests\Stubs\Providers\JWTProvider;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
@@ -27,7 +27,7 @@ final class ParserTest extends TestCase
             'nbf' => Carbon::now()->getTimestamp(),
         ]);
 
-        $jwtProvider = new JwtProvider();
+        $jwtProvider = new JWTProvider();
 
         $this->factory = new Factory($claimsFactory, $jwtProvider);
         $this->parser = new Parser($jwtProvider);

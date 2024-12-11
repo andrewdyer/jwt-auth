@@ -1,8 +1,8 @@
 <?php
 
-namespace Anddye\JwtAuth\Contracts;
+namespace Anddye\JWTAuth\Contracts;
 
-interface JwtSubject
+interface JWTSubject
 {
-    public function getJwtIdentifier(): mixed;
+    public function getJWTIdentifier(): mixed;
 }

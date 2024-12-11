@@ -1,8 +1,8 @@
 <?php
 
-namespace Anddye\JwtAuth\Providers;
+namespace Anddye\JWTAuth\Providers;
 
-interface JwtProviderInterface
+interface JWTProviderInterface
 {
     public function decode(string $token): mixed;
 
