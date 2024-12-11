@@ -3,6 +3,7 @@
 namespace Anddye\JWTAuth;
 
 use Anddye\JWTAuth\Interfaces\ClaimsInterface;
+use Anddye\JWTAuth\Interfaces\JWTSubject;
 
 class Claims implements ClaimsInterface
 {
@@ -11,6 +12,7 @@ class Claims implements ClaimsInterface
     private string $iss;
     private string $jti;
     private int $nbf;
+    private JWTSubject $sub;
 
     public function setExp(int $exp): self
     {
@@ -47,6 +49,13 @@ class Claims implements ClaimsInterface
         return $this;
     }
 
+    public function setSub(JWTSubject $sub): self
+    {
+        $this->sub = $sub;
+
+        return $this;
+    }
+
     public function getExp(): int
     {
         return $this->exp;
@@ -70,5 +79,10 @@ class Claims implements ClaimsInterface
     public function getNbf(): int
     {
         return $this->nbf;
+    }
+
+    public function getSub(): JWTSubject
+    {
+        return $this->sub;
     }
 }
