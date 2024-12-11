@@ -12,14 +12,16 @@ final class JWTAuth
 
     protected AuthProviderInterface $authProvider;
 
-    protected Factory $factory;
+    protected ClaimsFactory $claimsFactory;
 
     protected JWTProviderInterface $jwtProvider;
+
+    protected array $claims = [];
 
     public function __construct(AuthProviderInterface $authProvider, JWTProviderInterface $jwtProvider, ClaimsFactory $claimsFactory)
     {
         $this->authProvider = $authProvider;
-        $this->factory = new Factory($claimsFactory, $jwtProvider);
+        $this->claimsFactory = $claimsFactory;
         $this->jwtProvider = $jwtProvider;
     }
 
@@ -48,7 +50,7 @@ final class JWTAuth
 
     protected function fromSubject(JWTSubject $subject): string
     {
-        return $this->factory->encode($this->makePayload($subject));
+        return $this->encode($this->makePayload($subject));
     }
 
     protected function getClaimsForSubject(JWTSubject $subject): array
@@ -60,11 +62,35 @@ final class JWTAuth
 
     protected function makePayload(JWTSubject $subject): array
     {
-        return $this->factory->withClaims($this->getClaimsForSubject($subject))->make();
+        return $this->withClaims($this->getClaimsForSubject($subject))->make();
     }
 
     protected function decode(string $token): mixed
     {
         return $this->jwtProvider->decode($token);
+    }
+
+    protected function encode(array $claims): string
+    {
+        return $this->jwtProvider->encode($claims);
+    }
+
+    protected function make(): array
+    {
+        $claims = [];
+        $claims['exp'] = $this->claimsFactory->getExp();
+        $claims['iat'] = $this->claimsFactory->getIat();
+        $claims['iss'] = $this->claimsFactory->getIss();
+        $claims['jti'] = $this->claimsFactory->getJti();
+        $claims['nbf'] = $this->claimsFactory->getNbf();
+
+        return array_merge($this->claims, $claims);
+    }
+
+    protected function withClaims(array $claims): self
+    {
+        $this->claims = $claims;
+
+        return $this;
     }
 }
