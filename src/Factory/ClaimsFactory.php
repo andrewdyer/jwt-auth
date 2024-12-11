@@ -1,6 +1,6 @@
 <?php
 
-namespace Anddye\JWTAuth;
+namespace Anddye\JWTAuth\Factory;
 
 final class ClaimsFactory
 {

@@ -2,8 +2,8 @@
 
 namespace Anddye\JWTAuth\Tests\Integration;
 
-use Anddye\JWTAuth\ClaimsFactory;
 use Anddye\JWTAuth\Contracts\JWTSubject;
+use Anddye\JWTAuth\Factory\ClaimsFactory;
 use Anddye\JWTAuth\JWTAuth;
 use Anddye\JWTAuth\Tests\Stubs\Providers\AuthProvider;
 use Anddye\JWTAuth\Tests\Stubs\Providers\JWTProvider;

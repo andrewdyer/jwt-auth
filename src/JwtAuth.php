@@ -3,6 +3,7 @@
 namespace Anddye\JWTAuth;
 
 use Anddye\JWTAuth\Contracts\JWTSubject;
+use Anddye\JWTAuth\Factory\ClaimsFactory;
 use Anddye\JWTAuth\Providers\AuthProviderInterface;
 use Anddye\JWTAuth\Providers\JWTProviderInterface;
 

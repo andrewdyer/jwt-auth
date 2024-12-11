@@ -2,7 +2,7 @@
 
 namespace Anddye\JWTAuth\Tests\Unit;
 
-use Anddye\JWTAuth\ClaimsFactory;
+use Anddye\JWTAuth\Factory\ClaimsFactory;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
