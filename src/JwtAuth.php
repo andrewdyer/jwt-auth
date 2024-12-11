@@ -17,8 +17,6 @@ final class JWTAuth
 
     protected JWTProviderInterface $jwtProvider;
 
-    protected array $claimsData = [];
-
     public function __construct(AuthProviderInterface $authProvider, JWTProviderInterface $jwtProvider, ClaimsInterface $claims)
     {
         $this->authProvider = $authProvider;
@@ -37,9 +35,8 @@ final class JWTAuth
 
     public function authenticate(string $token): self
     {
-        $this->actor = $this->authProvider->byId(
-            $this->decode($token)->sub
-        );
+        $decoded = $this->decode($token);
+        $this->actor = $this->authProvider->byId($decoded->sub);
 
         return $this;
     }
@@ -51,19 +48,21 @@ final class JWTAuth
 
     protected function fromSubject(JWTSubject $subject): string
     {
-        return $this->encode($this->makePayload($subject));
+        $this->claims->setSub($subject);
+
+        return $this->encode($this->makePayload());
     }
 
-    protected function getClaimsForSubject(JWTSubject $subject): array
+    protected function makePayload(): array
     {
         return [
-            'sub' => $subject->getJWTIdentifier(),
+            'exp' => $this->claims->getExp(),
+            'iat' => $this->claims->getIat(),
+            'iss' => $this->claims->getIss(),
+            'jti' => $this->claims->getJti(),
+            'nbf' => $this->claims->getNbf(),
+            'sub' => $this->claims->getSub()->getJWTIdentifier(),
         ];
-    }
-
-    protected function makePayload(JWTSubject $subject): array
-    {
-        return $this->withClaims($this->getClaimsForSubject($subject))->make();
     }
 
     protected function decode(string $token): mixed
@@ -74,24 +73,5 @@ final class JWTAuth
     protected function encode(array $claims): string
     {
         return $this->jwtProvider->encode($claims);
-    }
-
-    protected function make(): array
-    {
-        $claims = [];
-        $claims['exp'] = $this->claims->getExp();
-        $claims['iat'] = $this->claims->getIat();
-        $claims['iss'] = $this->claims->getIss();
-        $claims['jti'] = $this->claims->getJti();
-        $claims['nbf'] = $this->claims->getNbf();
-
-        return array_merge($this->claimsData, $claims);
-    }
-
-    protected function withClaims(array $claims): self
-    {
-        $this->claimsData = $claims;
-
-        return $this;
     }
 }
