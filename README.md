@@ -47,12 +47,12 @@ class AuthProvider implements AuthProviderInterface
 {
     public function byCredentials(string $username, string $password)
     {
-        // TODO: Validate username / password and return an instance of `Anddye\JWTAuth\Contracts\JWTSubject`
+        // TODO: Validate username / password and return an instance of `Anddye\JWTAuth\Interfaces\JWTSubject`
     }
 
     public function byId(int $id)
     {
-        // TODO: Find a user by id and return an instance of `Anddye\JWTAuth\Contracts\JWTSubject` if exists
+        // TODO: Find a user by id and return an instance of `Anddye\JWTAuth\Interfaces\JWTSubject` if exists
     }
 }
 ```

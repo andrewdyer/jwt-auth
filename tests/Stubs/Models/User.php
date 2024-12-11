@@ -2,7 +2,7 @@
 
 namespace Anddye\JWTAuth\Tests\Stubs\Models;
 
-use Anddye\JWTAuth\Contracts\JWTSubject;
+use Anddye\JWTAuth\Interfaces\JWTSubject;
 
 class User implements JWTSubject
 {

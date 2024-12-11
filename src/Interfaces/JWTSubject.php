@@ -1,6 +1,6 @@
 <?php
 
-namespace Anddye\JWTAuth\Contracts;
+namespace Anddye\JWTAuth\Interfaces;
 
 interface JWTSubject
 {

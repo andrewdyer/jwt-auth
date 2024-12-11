@@ -2,10 +2,10 @@
 
 namespace Anddye\JWTAuth;
 
-use Anddye\JWTAuth\Contracts\JWTSubject;
 use Anddye\JWTAuth\Interfaces\AuthProviderInterface;
 use Anddye\JWTAuth\Interfaces\ClaimsInterface;
 use Anddye\JWTAuth\Interfaces\JWTProviderInterface;
+use Anddye\JWTAuth\Interfaces\JWTSubject;
 
 final class JWTAuth
 {
