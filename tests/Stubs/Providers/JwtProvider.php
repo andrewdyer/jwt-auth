@@ -4,46 +4,25 @@ namespace Anddye\JwtAuth\Tests\Stubs\Providers;
 
 use Anddye\JwtAuth\Providers\JwtProviderInterface;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
-/**
- * Class JwtProvider.
- */
 class JwtProvider implements JwtProviderInterface
 {
-    /**
-     * @var string
-     */
-    protected $algorithm;
+    protected string $algorithm;
 
-    /**
-     * @var string
-     */
-    protected $secret;
+    protected string $secret;
 
-    /**
-     * JwtProvider constructor.
-     */
     public function __construct()
     {
         $this->algorithm = 'HS256';
         $this->secret = 'I7s5cpLKGlK2tOY';
     }
 
-    /**
-     * @param string $token
-     *
-     * @return mixed
-     */
-    public function decode(string $token)
+    public function decode(string $token): mixed
     {
-        return JWT::decode($token, $this->secret, [$this->algorithm]);
+        return JWT::decode($token, new Key($this->secret, $this->algorithm));
     }
 
-    /**
-     * @param array $claims
-     *
-     * @return string
-     */
     public function encode(array $claims): string
     {
         return JWT::encode($claims, $this->secret, $this->algorithm);

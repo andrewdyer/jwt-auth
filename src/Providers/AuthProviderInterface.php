@@ -2,23 +2,9 @@
 
 namespace Anddye\JwtAuth\Providers;
 
-/**
- * Interface AuthProviderInterface.
- */
 interface AuthProviderInterface
 {
-    /**
-     * @param string $username
-     * @param string $password
-     *
-     * @return mixed
-     */
-    public function byCredentials(string $username, string $password);
+    public function byCredentials(string $username, string $password): mixed;
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function byId(int $id);
+    public function byId(int $id): mixed;
 }

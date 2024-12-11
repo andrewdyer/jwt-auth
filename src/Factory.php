@@ -4,51 +4,25 @@ namespace Anddye\JwtAuth;
 
 use Anddye\JwtAuth\Providers\JwtProviderInterface;
 
-/**
- * Class Factory.
- */
 final class Factory
 {
-    /**
-     * @var array
-     */
-    protected $claims = [];
+    protected array $claims = [];
 
-    /**
-     * @var ClaimsFactory
-     */
-    protected $claimsFactory;
+    protected ClaimsFactory $claimsFactory;
 
-    /**
-     * @var JwtProviderInterface
-     */
-    protected $jwtProvider;
+    protected JwtProviderInterface $jwtProvider;
 
-    /**
-     * Factory constructor.
-     *
-     * @param ClaimsFactory        $claimsFactory
-     * @param JwtProviderInterface $jwtProvider
-     */
     public function __construct(ClaimsFactory $claimsFactory, JwtProviderInterface $jwtProvider)
     {
         $this->claimsFactory = $claimsFactory;
         $this->jwtProvider = $jwtProvider;
     }
 
-    /**
-     * @param array $claims
-     *
-     * @return string
-     */
     public function encode(array $claims): string
     {
         return $this->jwtProvider->encode($claims);
     }
 
-    /**
-     * @return array
-     */
     public function make(): array
     {
         $claims = [];
@@ -61,11 +35,6 @@ final class Factory
         return array_merge($this->claims, $claims);
     }
 
-    /**
-     * @param array $claims
-     *
-     * @return $this
-     */
     public function withClaims(array $claims): self
     {
         $this->claims = $claims;

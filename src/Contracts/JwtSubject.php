@@ -2,13 +2,7 @@
 
 namespace Anddye\JwtAuth\Contracts;
 
-/**
- * Interface JwtSubject.
- */
 interface JwtSubject
 {
-    /**
-     * @return mixed
-     */
-    public function getJwtIdentifier();
+    public function getJwtIdentifier(): mixed;
 }

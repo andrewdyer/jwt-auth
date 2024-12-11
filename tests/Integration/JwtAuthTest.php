@@ -10,19 +10,10 @@ use Anddye\JwtAuth\Tests\Stubs\Providers\JwtProvider;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class JwtAuthTest.
- */
 final class JwtAuthTest extends TestCase
 {
-    /**
-     * @var JwtAuth
-     */
-    protected $jwtAuth;
+    protected JwtAuth $jwtAuth;
 
-    /**
-     * This method is called before each test.
-     */
     protected function setUp(): void
     {
         parent::setUp();

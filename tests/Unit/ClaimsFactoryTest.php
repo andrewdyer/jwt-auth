@@ -6,19 +6,10 @@ use Anddye\JwtAuth\ClaimsFactory;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ClaimsFactoryTest.
- */
 final class ClaimsFactoryTest extends TestCase
 {
-    /**
-     * @var ClaimsFactory
-     */
-    protected $claimsFactory;
+    protected ClaimsFactory $claimsFactory;
 
-    /**
-     * This method is called before each test.
-     */
     protected function setUp(): void
     {
         parent::setUp();

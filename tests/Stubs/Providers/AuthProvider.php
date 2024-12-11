@@ -17,13 +17,7 @@ class AuthProvider implements AuthProviderInterface
         $this->user->setPassword(password_hash('password', PASSWORD_DEFAULT));
     }
 
-    /**
-     * @param string $username
-     * @param string $password
-     *
-     * @return mixed
-     */
-    public function byCredentials(string $username, string $password)
+    public function byCredentials(string $username, string $password): mixed
     {
         if ($this->user->getUsername() !== $username) {
             return null;
@@ -36,12 +30,7 @@ class AuthProvider implements AuthProviderInterface
         return $this->user;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function byId(int $id)
+    public function byId(int $id): mixed
     {
         if ($this->user->getId() !== $id) {
             return null;

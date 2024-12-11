@@ -8,19 +8,10 @@ use Anddye\JwtAuth\Tests\Stubs\Providers\JwtProvider;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class FactoryTest.
- */
 final class FactoryTest extends TestCase
 {
-    /**
-     * @var Factory
-     */
-    protected $factory;
+    protected Factory $factory;
 
-    /**
-     * This method is called before each test.
-     */
     protected function setUp(): void
     {
         parent::setUp();

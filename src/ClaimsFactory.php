@@ -2,41 +2,18 @@
 
 namespace Anddye\JwtAuth;
 
-/**
- * Class ClaimsFactory.
- */
 final class ClaimsFactory
 {
-    /**
-     * @var int
-     */
-    protected $exp;
+    protected int $exp;
 
-    /**
-     * @var int
-     */
-    protected $iat;
+    protected int $iat;
 
-    /**
-     * @var string
-     */
-    protected $iss;
+    protected string $iss;
 
-    /**
-     * @var string
-     */
-    protected $jti;
+    protected string $jti;
 
-    /**
-     * @var int
-     */
-    protected $nbf;
+    protected int $nbf;
 
-    /**
-     * @param array $claims
-     *
-     * @return ClaimsFactory
-     */
     public static function build(array $claims): ClaimsFactory
     {
         $claimsFactory = new ClaimsFactory();
@@ -64,51 +41,31 @@ final class ClaimsFactory
         return $claimsFactory;
     }
 
-    /**
-     * @return int
-     */
     public function getExp(): int
     {
         return $this->exp;
     }
 
-    /**
-     * @return int
-     */
     public function getIat(): int
     {
         return $this->iat;
     }
 
-    /**
-     * @return string
-     */
     public function getIss(): string
     {
         return $this->iss;
     }
 
-    /**
-     * @return string
-     */
     public function getJti(): string
     {
         return $this->jti;
     }
 
-    /**
-     * @return int
-     */
     public function getNbf(): int
     {
         return $this->nbf;
     }
 
-    /**
-     * @param int $exp
-     *
-     * @return $this
-     */
     public function setExp(int $exp): self
     {
         $this->exp = $exp;
@@ -116,11 +73,6 @@ final class ClaimsFactory
         return $this;
     }
 
-    /**
-     * @param int $iat
-     *
-     * @return $this
-     */
     public function setIat(int $iat): self
     {
         $this->iat = $iat;
@@ -128,11 +80,6 @@ final class ClaimsFactory
         return $this;
     }
 
-    /**
-     * @param string $iss
-     *
-     * @return $this
-     */
     public function setIss(string $iss): self
     {
         $this->iss = $iss;
@@ -140,11 +87,6 @@ final class ClaimsFactory
         return $this;
     }
 
-    /**
-     * @param string $jti
-     *
-     * @return $this
-     */
     public function setJti(string $jti): self
     {
         $this->jti = $jti;
@@ -152,11 +94,6 @@ final class ClaimsFactory
         return $this;
     }
 
-    /**
-     * @param int $nbf
-     *
-     * @return $this
-     */
     public function setNbf(int $nbf): self
     {
         $this->nbf = $nbf;

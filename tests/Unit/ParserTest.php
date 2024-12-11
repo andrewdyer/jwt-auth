@@ -9,24 +9,12 @@ use Anddye\JwtAuth\Tests\Stubs\Providers\JwtProvider;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ParserTest.
- */
 final class ParserTest extends TestCase
 {
-    /**
-     * @var Factory
-     */
-    protected $factory;
+    protected Factory $factory;
 
-    /**
-     * @var Parser
-     */
-    protected $parser;
+    protected Parser $parser;
 
-    /**
-     * This method is called before each test.
-     */
     protected function setUp(): void
     {
         parent::setUp();
