@@ -18,6 +18,8 @@ interface ClaimsInterface
 
     public function setAud(string $aud);
 
+    public function setSub(JWTSubject $sub);
+
     public function getExp(): int;
 
     public function getIat(): int;
@@ -27,4 +29,6 @@ interface ClaimsInterface
     public function getJti(): string;
 
     public function getNbf(): int;
+
+    public function getSub(): JWTSubject;
 }
