@@ -14,13 +14,13 @@ final class JWTAuth
 
     protected Factory $factory;
 
-    protected Parser $parser;
+    protected JWTProviderInterface $jwtProvider;
 
     public function __construct(AuthProviderInterface $authProvider, JWTProviderInterface $jwtProvider, ClaimsFactory $claimsFactory)
     {
         $this->authProvider = $authProvider;
         $this->factory = new Factory($claimsFactory, $jwtProvider);
-        $this->parser = new Parser($jwtProvider);
+        $this->jwtProvider = $jwtProvider;
     }
 
     public function attempt(string $username, string $password): ?string
@@ -35,7 +35,7 @@ final class JWTAuth
     public function authenticate(string $token): self
     {
         $this->actor = $this->authProvider->byId(
-            $this->parser->decode($token)->sub
+            $this->decode($token)->sub
         );
 
         return $this;
@@ -61,5 +61,10 @@ final class JWTAuth
     protected function makePayload(JWTSubject $subject): array
     {
         return $this->factory->withClaims($this->getClaimsForSubject($subject))->make();
+    }
+
+    protected function decode(string $token): mixed
+    {
+        return $this->jwtProvider->decode($token);
     }
 }
