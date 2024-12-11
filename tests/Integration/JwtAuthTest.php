@@ -3,7 +3,6 @@
 namespace Anddye\JWTAuth\Tests\Integration;
 
 use Anddye\JWTAuth\Factory\ClaimsFactory;
-use Anddye\JWTAuth\Interfaces\JWTSubject;
 use Anddye\JWTAuth\JWTAuth;
 use Anddye\JWTAuth\Tests\Stubs\Providers\AuthProvider;
 use Anddye\JWTAuth\Tests\Stubs\Providers\JWTProvider;
@@ -29,22 +28,6 @@ final class JWTAuthTest extends TestCase
         ]);
 
         $this->jwtAuth = new JWTAuth($authProvider, $jwtProvider, $claimsFactory);
-    }
-
-    /**
-     * @test
-     */
-    public function can_get_actor_with_valid_jwt_token()
-    {
-        $username = 'andrewdyer';
-        $password = 'password';
-
-        $token = $this->jwtAuth->attempt($username, $password);
-
-        $actor = $this->jwtAuth->authenticate($token)->getActor();
-
-        $this->assertNotNull($actor);
-        $this->assertInstanceOf(JWTSubject::class, $actor);
     }
 
     /**

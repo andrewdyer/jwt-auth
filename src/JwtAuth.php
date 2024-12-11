@@ -9,8 +9,6 @@ use Anddye\JWTAuth\Interfaces\JWTSubject;
 
 final class JWTAuth
 {
-    protected ?JWTSubject $actor = null;
-
     protected AuthProviderInterface $authProvider;
 
     protected ClaimsInterface $claims;
@@ -33,17 +31,11 @@ final class JWTAuth
         return $this->fromSubject($user);
     }
 
-    public function authenticate(string $token): self
+    public function authenticate(string $token): JWTSubject
     {
         $decoded = $this->decode($token);
-        $this->actor = $this->authProvider->byId($decoded->sub);
 
-        return $this;
-    }
-
-    public function getActor(): ?JWTSubject
-    {
-        return $this->actor;
+        return $this->authProvider->byId($decoded->sub);
     }
 
     protected function fromSubject(JWTSubject $subject): string

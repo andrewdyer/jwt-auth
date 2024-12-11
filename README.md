@@ -107,7 +107,7 @@ if (!$token = $jwtAuth->attempt($username, $password)) {
 
 ### Authenticate with token
 ```php
-if (!$actor = $jwtAuth->authenticate($token)->getActor()) {
+if (!$jwtAuth->authenticate($token)) {
     // TODO: Handle failed authentication with token
 } else {
     // TODO: Handle successful authentication with token
