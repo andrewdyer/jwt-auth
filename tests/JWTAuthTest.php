@@ -1,6 +1,6 @@
 <?php
 
-namespace Anddye\JWTAuth\Tests\Integration;
+namespace Anddye\JWTAuth\Tests;
 
 use Anddye\JWTAuth\Factory\ClaimsFactory;
 use Anddye\JWTAuth\JWTAuth;
