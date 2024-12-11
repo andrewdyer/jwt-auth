@@ -20,11 +20,11 @@ final class JWTAuthTest extends TestCase
         $authProvider = new AuthProvider();
         $jwtProvider = new JWTProvider();
         $claimsFactory = ClaimsFactory::build([
-            'exp' => Carbon::now()->addMinute(5)->getTimestamp(),
-            'iat' => Carbon::now()->getTimestamp(),
+            'exp' => 1234567890,
+            'iat' => 1234567890,
             'iss' => 'https://andrewdyer.rocks',
             'jti' => 'fVcx9BJHqh',
-            'nbf' => Carbon::now()->getTimestamp(),
+            'nbf' => 1234567890,
         ]);
 
         $this->jwtAuth = new JWTAuth($authProvider, $jwtProvider, $claimsFactory);

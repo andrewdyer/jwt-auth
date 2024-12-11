@@ -33,7 +33,6 @@
         "phpunit/phpunit": "^11.5",
         "friendsofphp/php-cs-fixer": "^3.65",
         "symfony/var-dumper": "^7.2",
-        "nesbot/carbon": "^3.8",
         "firebase/php-jwt": "^6.10"
     },
     "scripts": {
