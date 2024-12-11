@@ -30,9 +30,9 @@
         "php": "^8.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5",
-        "friendsofphp/php-cs-fixer": "^2.19",
-        "symfony/var-dumper": "^6.4",
+        "phpunit/phpunit": "^11.5",
+        "friendsofphp/php-cs-fixer": "^3.65",
+        "symfony/var-dumper": "^7.2",
         "nesbot/carbon": "^3.8",
         "firebase/php-jwt": "^6.10"
     },
