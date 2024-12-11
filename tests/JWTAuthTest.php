@@ -6,7 +6,6 @@ use Anddye\JWTAuth\Factory\ClaimsFactory;
 use Anddye\JWTAuth\JWTAuth;
 use Anddye\JWTAuth\Tests\Stubs\Providers\AuthProvider;
 use Anddye\JWTAuth\Tests\Stubs\Providers\JWTProvider;
-use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
 final class JWTAuthTest extends TestCase
