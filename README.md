@@ -113,6 +113,8 @@ $claims = ClaimsFactory::build([
 ]);
 ```
 
+> **Note:** This example uses hardcoded Unix timestamps for demonstration purposes. Consider using libraries like [nesbot/carbon](https://github.com/briannesbitt/carbon) or PHP's native `DateTime` class to generate timestamps dynamically. This helps improve readability and ensures accurate date handling.
+
 ### Initialize the JWT Authenticator
 
 Create a new instance of the `JWTAuth` class. This requires an instance of `AuthProviderInterface`, `JWTProviderInterface`, and `ClaimsInterface`.
