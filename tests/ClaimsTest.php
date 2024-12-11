@@ -8,6 +8,13 @@ use PHPUnit\Framework\TestCase;
 
 class ClaimsTest extends TestCase
 {
+    public function testSetAndGetAud()
+    {
+        $claims = new Claims();
+        $claims->setAud('audience');
+        $this->assertEquals('audience', $claims->getAud());
+    }
+
     public function testSetAndGetExp()
     {
         $claims = new Claims();
