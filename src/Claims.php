@@ -15,6 +15,48 @@ class Claims implements ClaimsInterface
     private int $nbf;
     private JWTSubject $sub;
 
+    public function getAud(): string
+    {
+        return $this->aud;
+    }
+
+    public function getExp(): int
+    {
+        return $this->exp;
+    }
+
+    public function getIat(): int
+    {
+        return $this->iat;
+    }
+
+    public function getIss(): string
+    {
+        return $this->iss;
+    }
+
+    public function getJti(): string
+    {
+        return $this->jti;
+    }
+
+    public function getNbf(): int
+    {
+        return $this->nbf;
+    }
+
+    public function getSub(): JWTSubject
+    {
+        return $this->sub;
+    }
+
+    public function setAud(string $aud): self
+    {
+        $this->aud = $aud;
+
+        return $this;
+    }
+
     public function setExp(int $exp): self
     {
         $this->exp = $exp;
@@ -53,48 +95,6 @@ class Claims implements ClaimsInterface
     public function setSub(JWTSubject $sub): self
     {
         $this->sub = $sub;
-
-        return $this;
-    }
-
-    public function getExp(): int
-    {
-        return $this->exp;
-    }
-
-    public function getIat(): int
-    {
-        return $this->iat;
-    }
-
-    public function getIss(): string
-    {
-        return $this->iss;
-    }
-
-    public function getJti(): string
-    {
-        return $this->jti;
-    }
-
-    public function getNbf(): int
-    {
-        return $this->nbf;
-    }
-
-    public function getSub(): JWTSubject
-    {
-        return $this->sub;
-    }
-
-    public function getAud(): string
-    {
-        return $this->aud;
-    }
-
-    public function setAud(string $aud): self
-    {
-        $this->aud = $aud;
 
         return $this;
     }

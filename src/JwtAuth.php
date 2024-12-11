@@ -38,6 +38,16 @@ final class JWTAuth
         return $this->authProvider->byId($decoded->sub);
     }
 
+    protected function decode(string $token): mixed
+    {
+        return $this->jwtProvider->decode($token);
+    }
+
+    protected function encode(array $claims): string
+    {
+        return $this->jwtProvider->encode($claims);
+    }
+
     protected function fromSubject(JWTSubject $subject): string
     {
         $this->claims->setSub($subject);
@@ -56,15 +66,5 @@ final class JWTAuth
             'aud' => $this->claims->getAud(),
             'sub' => $this->claims->getSub()->getJWTIdentifier(),
         ];
-    }
-
-    protected function decode(string $token): mixed
-    {
-        return $this->jwtProvider->decode($token);
-    }
-
-    protected function encode(array $claims): string
-    {
-        return $this->jwtProvider->encode($claims);
     }
 }
