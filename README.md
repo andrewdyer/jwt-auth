@@ -1,13 +1,8 @@
-# JWT Auth
+# JWT-Auth 
 
 A simple framework-agnostic JSON Web Token authentication solution.
 
-## Table of Contents
-
-- [Installation](#installation)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [License](#license)
+[![Latest Stable Version](http://poser.pugx.org/andrewdyer/jwt-auth/v?style=for-the-badge)](https://packagist.org/packages/andrewdyer/jwt-auth) [![Total Downloads](http://poser.pugx.org/andrewdyer/jwt-auth/downloads?style=for-the-badge)](https://packagist.org/packages/andrewdyer/jwt-auth) [![Latest Unstable Version](http://poser.pugx.org/andrewdyer/jwt-auth/v/unstable?style=for-the-badge)](https://packagist.org/packages/andrewdyer/jwt-auth) [![License](http://poser.pugx.org/andrewdyer/jwt-auth/license?style=for-the-badge)](https://packagist.org/packages/andrewdyer/jwt-auth) [![PHP Version Require](http://poser.pugx.org/andrewdyer/jwt-auth/require/php?style=for-the-badge)](https://packagist.org/packages/andrewdyer/jwt-auth)
 
 ## Installation
 
