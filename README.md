@@ -1,121 +1,161 @@
-<h1 align="center">JWT Auth</h1>
+# JWT-Auth 
 
-<p align="center">A simple framework-agnostic JSON Web Token authentication solution.</p>
+A simple framework-agnostic JSON Web Token authentication solution.
 
-<p align="center">
-    <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/downloads?style=for-the-badge" alt="Total Downloads"></a>
-    <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/v?style=for-the-badge" alt="Latest Stable Version"></a>
-    <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/license?style=for-the-badge" alt="License"></a>
-</p>
-
-## License
-Licensed under MIT. Totally free for private or commercial projects.
+[![Latest Stable Version](http://poser.pugx.org/andrewdyer/jwt-auth/v?style=for-the-badge)](https://packagist.org/packages/andrewdyer/jwt-auth) [![Total Downloads](http://poser.pugx.org/andrewdyer/jwt-auth/downloads?style=for-the-badge)](https://packagist.org/packages/andrewdyer/jwt-auth) [![Latest Unstable Version](http://poser.pugx.org/andrewdyer/jwt-auth/v/unstable?style=for-the-badge)](https://packagist.org/packages/andrewdyer/jwt-auth) [![License](http://poser.pugx.org/andrewdyer/jwt-auth/license?style=for-the-badge)](https://packagist.org/packages/andrewdyer/jwt-auth) [![PHP Version Require](http://poser.pugx.org/andrewdyer/jwt-auth/require/php?style=for-the-badge)](https://packagist.org/packages/andrewdyer/jwt-auth)
 
 ## Installation
-```text
+
+```bash
 composer require andrewdyer/jwt-auth
 ```
 
-## Usage
+## Getting Started
+
+### Define the JWT Subject
+
+Create a class (e.g., `User`) that implements the `JWTSubject` interface. This class must provide a method `getJWTIdentifier` to return the user’s unique identifier.
+
 ```php
-// Create a new auth provider instance
-$authProvider = new App\Providers\AuthProvider();
+namespace App\Models;
 
-// Create a new jwt provider instance
-$jwtProvider = new App\Providers\JwtProvider();
+use Anddye\JWTAuth\Interfaces\JWTSubject;
 
-// Build up jwt claims
-$claimsFactory = new Anddye\JwtAuth\ClaimsFactory::build([
-    'exp' => 1582243200, // Friday, 21 February 2020 00:00:00
-    'iat' => 1582193571, // Thursday, 20 February 2020 10:12:51
-    'iss' => 'https://example.com',
-    'jti' => 'fVcx9BJHqh',
-    'nbj' => '1582193571', // Thursday, 20 February 2020 10:12:51
-]);
-
-// Bring everything together to create a jwt auth instance
-$jwtAuth = new JwtAuth($authProvider, $jwtProvider, $claimsFactory);
+class User implements JWTSubject
+{
+    public function getJWTIdentifier(): int
+    {
+        return 1;
+    }
+}
 ```
 
-### Auth Provider
+> **Note:** This example is simplified for demonstration purposes. In a real-world application, you would typically use a proper user model, such as one provided by your framework. Ensure the `getJWTIdentifier` method returns a unique user identifier appropriate for your system.
+
+### Create an Authentication Provider
+
+Create an authentication provider class that implements `AuthProviderInterface`. This class will handle credential validation and user retrieval by ID.
+
 ```php
 namespace App\Providers;
 
-use Anddye\JwtAuth\Providers\AuthProviderInterface;
+use Anddye\JWTAuth\Interfaces\AuthProviderInterface;
+use App\Models\User;
 
 class AuthProvider implements AuthProviderInterface
 {
     public function byCredentials(string $username, string $password)
     {
-        // TODO: Validate username / password and return an instance of `Anddye\JwtAuth\Contracts\JwtSubject`
+        if ($username === 'admin' && $password === 'secret') {
+            return new User();
+        }
+
+        return null;
     }
 
     public function byId(int $id)
     {
-        // TODO: Find a user by id and return an instance of `Anddye\JwtAuth\Contracts\JwtSubject` if exists
+        if ($id === 1) {
+            return new User();
+        }
+
+        return null;
     }
 }
 ```
 
-### JWT Provider
+> **Note:** This example uses hardcoded credentials for demonstration purposes. In a real-world application, you should validate credentials securely by checking against a database and using hashed passwords (e.g., via libraries like `bcrypt` or `password_hash`). Ensure you follow best practices for secure authentication.
+
+### Create a JWT Provider
+
+Create a JWT provider class that implements `JWTProviderInterface`. This class should handle encoding and decoding JWT tokens.
+
 ```php
-namespace Anddye\JwtAuth\Tests\Stubs\Providers;
+namespace App\Providers;
 
-use Anddye\JwtAuth\Providers\JwtProviderInterface;
+use Anddye\JWTAuth\Interfaces\JWTProviderInterface;
 
-class JwtProvider implements JwtProviderInterface
+class JWTProvider implements JWTProviderInterface
 {
     public function decode(string $token)
     {
-        // TODO: Decode JWT token somehow
+        return json_decode(base64_decode($token), true);
     }
 
     public function encode(array $claims): string
     {
-        // TODO: Encode claims and create a JWT token somehow
+        return base64_encode(json_encode($claims));
     }
 }
 ```
 
-### Claims Factory
-| Option | Type | Description |
-| --- | --- | --- |
-| exp | int | Time after which the JWT expires. |
-| iat | int | Time at which the JWT was issued. |
-| iss | string | Issuer of the JWT. |
-| jti | string | Unique identifier; can be used to prevent the JWT from being replayed. |
-| nbj | int | Time before which the JWT must not be accepted for processing. |
+> **Note:** This examples used `base64_encode` and `base64_decode` for simplicity. For real-world usage, consider using a proper JWT library such as [firebase/php-jwt](https://github.com/firebase/php-jwt) for better security.
+
+### Generate JWT Claims
+
+The `ClaimsFactory` class helps create a JWT claims instance. The `build` method accepts an array of claims and returns an instance of `ClaimsInterface`.
 
 ```php
-$claimsFactory = new Anddye\JwtAuth\ClaimsFactory();
-$claimsFactory->setExp(1582243200); // Friday, 21 February 2020 00:00:00
-$claimsFactory->setIat(1582193571); // Thursday, 20 February 2020 10:12:51
-$claimsFactory->setIss('https://example.com');
-$claimsFactory->setJti('fVcx9BJHqh');
-$claimsFactory->setNbj(1582193571); // Thursday, 20 February 2020 10:12:51
+use Anddye\JWTAuth\Factory\ClaimsFactory;
+
+$claims = ClaimsFactory::build([
+    'iss' => 'https://example.com',     // Issuer of the JWT
+    'aud' => 'https://example.com',     // Audience of the JWT
+    'exp' => 1582243200,                // Expiration time (Unix timestamp)
+    'nbf' => 1582193571,                // Not before time (Unix timestamp)
+    'iat' => 1582193571,                // Issued at time (Unix timestamp)
+    'jti' => 'fVcx9BJHqh',              // Unique identifier
+]);
 ```
 
-### Attempt with credentials
+> **Note:** This example uses hardcoded Unix timestamps for demonstration purposes. Consider using libraries like [nesbot/carbon](https://github.com/briannesbitt/carbon) or PHP's native `DateTime` class to generate timestamps dynamically. This helps improve readability and ensures accurate date handling.
+
+### Initialize the JWT Authenticator
+
+Create a new instance of the `JWTAuth` class. This requires an instance of `AuthProviderInterface`, `JWTProviderInterface`, and `ClaimsInterface`.
+
 ```php
-if (!$token = $jwtAuth->attempt($username, $password)) {
-    // TODO: Handle failed attempt with credentials
+use App\Providers\AuthProvider;
+use App\Providers\JWTProvider;
+use Anddye\JWTAuth\JWTAuth;
+
+$authProvider = new AuthProvider();
+
+$jwtProvider = new JWTProvider();
+
+$jwtAuth = new JWTAuth($authProvider, $jwtProvider, $claims);
+```
+
+## Usage
+
+### Attempt Authentication
+
+Authenticate a user by providing their credentials. If successful, a JWT token will be returned.
+
+```php
+$token = $jwtAuth->attempt('admin', 'secret');
+
+if ($token) {
+    echo "Token: " . $token;
 } else {
-    // TODO: Handle successful attempt with credentials
+    echo "Invalid credentials";
 }
 ```
 
-### Authenticate with token
+### Authenticate a Token
+
+Validate a JWT token and retrieve the associated user (subject).
+
 ```php
-if (!$actor = $jwtAuth->authenticate($token)->getActor()) {
-    // TODO: Handle failed authentication with token
+$subject = $jwtAuth->authenticate('your-jwt-token-here');
+
+if ($subject) {
+    echo "User authenticated!";
 } else {
-    // TODO: Handle successful authentication with token
+    echo "Invalid token";
 }
 ```
 
-## Support
-If you're using this package, I'd love to hear your thoughts! Feel free to contact me on [Twitter](https://twitter.com/andyer92).
+## License
 
-Need to see an example? Check out [this tutorial](https://github.com/andrewdyer/jwt-auth/wiki/Slim-3-Example) on how to integrate this library into a [Slim 3](http://www.slimframework.com/docs/v3/) project.
-
-Found a bug? Please report it using the [issue tracker](https://github.com/andrewdyer/jwt-auth/issues), or better yet, fork the repository and submit a pull request.
+Licensed under MIT. Totally free for private or commercial projects.

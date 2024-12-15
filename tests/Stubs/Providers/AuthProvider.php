@@ -1,9 +1,9 @@
 <?php
 
-namespace Anddye\JwtAuth\Tests\Stubs\Providers;
+namespace Anddye\JWTAuth\Tests\Stubs\Providers;
 
-use Anddye\JwtAuth\Providers\AuthProviderInterface;
-use Anddye\JwtAuth\Tests\Stubs\Models\User;
+use Anddye\JWTAuth\Interfaces\AuthProviderInterface;
+use Anddye\JWTAuth\Tests\Stubs\Models\User;
 
 class AuthProvider implements AuthProviderInterface
 {
@@ -17,13 +17,7 @@ class AuthProvider implements AuthProviderInterface
         $this->user->setPassword(password_hash('password', PASSWORD_DEFAULT));
     }
 
-    /**
-     * @param string $username
-     * @param string $password
-     *
-     * @return mixed
-     */
-    public function byCredentials(string $username, string $password)
+    public function byCredentials(string $username, string $password): mixed
     {
         if ($this->user->getUsername() !== $username) {
             return null;
@@ -36,12 +30,7 @@ class AuthProvider implements AuthProviderInterface
         return $this->user;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function byId(int $id)
+    public function byId(int $id): mixed
     {
         if ($this->user->getId() !== $id) {
             return null;

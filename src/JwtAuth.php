@@ -1,56 +1,27 @@
 <?php
 
-namespace Anddye\JwtAuth;
+namespace Anddye\JWTAuth;
 
-use Anddye\JwtAuth\Contracts\JwtSubject;
-use Anddye\JwtAuth\Providers\AuthProviderInterface;
-use Anddye\JwtAuth\Providers\JwtProviderInterface;
+use Anddye\JWTAuth\Interfaces\AuthProviderInterface;
+use Anddye\JWTAuth\Interfaces\ClaimsInterface;
+use Anddye\JWTAuth\Interfaces\JWTProviderInterface;
+use Anddye\JWTAuth\Interfaces\JWTSubject;
 
-/**
- * Class JwtAuth.
- */
-final class JwtAuth
+final class JWTAuth
 {
-    /**
-     * @var JwtSubject|null
-     */
-    protected $actor = null;
+    protected AuthProviderInterface $authProvider;
 
-    /**
-     * @var AuthProviderInterface
-     */
-    protected $authProvider;
+    protected ClaimsInterface $claims;
 
-    /**
-     * @var Factory
-     */
-    protected $factory;
+    protected JWTProviderInterface $jwtProvider;
 
-    /**
-     * @var Parser
-     */
-    protected $parser;
-
-    /**
-     * JwtAuth constructor.
-     *
-     * @param AuthProviderInterface $authProvider
-     * @param JwtProviderInterface  $jwtProvider
-     * @param ClaimsFactory         $claimsFactory
-     */
-    public function __construct(AuthProviderInterface $authProvider, JwtProviderInterface $jwtProvider, ClaimsFactory $claimsFactory)
+    public function __construct(AuthProviderInterface $authProvider, JWTProviderInterface $jwtProvider, ClaimsInterface $claims)
     {
         $this->authProvider = $authProvider;
-        $this->factory = new Factory($claimsFactory, $jwtProvider);
-        $this->parser = new Parser($jwtProvider);
+        $this->claims = $claims;
+        $this->jwtProvider = $jwtProvider;
     }
 
-    /**
-     * @param string $username
-     * @param string $password
-     *
-     * @return string|null
-     */
     public function attempt(string $username, string $password): ?string
     {
         if (!$user = $this->authProvider->byCredentials($username, $password)) {
@@ -60,57 +31,40 @@ final class JwtAuth
         return $this->fromSubject($user);
     }
 
-    /**
-     * @param string $token
-     *
-     * @return $this
-     */
-    public function authenticate(string $token): self
+    public function authenticate(string $token): JWTSubject
     {
-        $this->actor = $this->authProvider->byId(
-            $this->parser->decode($token)->sub
-        );
+        $decoded = $this->decode($token);
 
-        return $this;
+        return $this->authProvider->byId($decoded->sub);
     }
 
-    /**
-     * @return JwtSubject|null
-     */
-    public function getActor(): ?JwtSubject
+    protected function decode(string $token): mixed
     {
-        return $this->actor;
+        return $this->jwtProvider->decode($token);
     }
 
-    /**
-     * @param JwtSubject $subject
-     *
-     * @return string
-     */
-    protected function fromSubject(JwtSubject $subject): string
+    protected function encode(array $claims): string
     {
-        return $this->factory->encode($this->makePayload($subject));
+        return $this->jwtProvider->encode($claims);
     }
 
-    /**
-     * @param JwtSubject $subject
-     *
-     * @return array
-     */
-    protected function getClaimsForSubject(JwtSubject $subject): array
+    protected function fromSubject(JWTSubject $subject): string
+    {
+        $this->claims->setSub($subject);
+
+        return $this->encode($this->makePayload());
+    }
+
+    protected function makePayload(): array
     {
         return [
-            'sub' => $subject->getJwtIdentifier(),
+            'exp' => $this->claims->getExp(),
+            'iat' => $this->claims->getIat(),
+            'iss' => $this->claims->getIss(),
+            'jti' => $this->claims->getJti(),
+            'nbf' => $this->claims->getNbf(),
+            'aud' => $this->claims->getAud(),
+            'sub' => $this->claims->getSub()->getJWTIdentifier(),
         ];
-    }
-
-    /**
-     * @param JwtSubject $subject
-     *
-     * @return array
-     */
-    protected function makePayload(JwtSubject $subject): array
-    {
-        return $this->factory->withClaims($this->getClaimsForSubject($subject))->make();
     }
 }
