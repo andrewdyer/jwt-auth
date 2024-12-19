@@ -1,4 +1,6 @@
-# JWT-Auth
+![JWT Auth](https://raw.githubusercontent.com/andrewdyer/andrewdyer/refs/heads/main/assets/images/covers/jwt-auth.png)
+
+# JWT Auth
 
 A simple framework-agnostic JSON Web Token authentication solution.
 
