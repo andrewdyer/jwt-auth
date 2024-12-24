@@ -25,7 +25,7 @@ final class JWTAuth
     public function attempt(string $username, string $password): ?string
     {
         if (!$user = $this->authProvider->byCredentials($username, $password)) {
-            return null;
+            throw new Exceptions\InvalidCredentialsException();
         }
 
         return $this->fromSubject($user);

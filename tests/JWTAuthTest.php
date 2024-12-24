@@ -2,6 +2,7 @@
 
 namespace Anddye\JWTAuth\Tests;
 
+use Anddye\JWTAuth\Exceptions\InvalidCredentialsException;
 use Anddye\JWTAuth\Factory\ClaimsFactory;
 use Anddye\JWTAuth\JWTAuth;
 use Anddye\JWTAuth\Tests\Stubs\Providers\AuthProvider;
@@ -42,11 +43,11 @@ final class JWTAuthTest extends TestCase
 
     public function testCantGetTokenWithIncorrectLoginCredentials()
     {
+        $this->expectException(InvalidCredentialsException::class);
+
         $username = 'andrewdyer';
         $password = 'pa55w0rd';
 
-        $token = $this->jwtAuth->attempt($username, $password);
-
-        $this->assertNull($token);
+        $this->jwtAuth->attempt($username, $password);
     }
 }

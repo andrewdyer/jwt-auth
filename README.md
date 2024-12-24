@@ -130,14 +130,13 @@ $jwtAuth = new JWTAuth($authProvider, $jwtProvider, $claims);
 
 ### Attempt Authentication
 
-Authenticate a user by providing their credentials. If successful, a JWT token will be returned.
+Authenticate a user by providing their credentials. If successful, a JWT token will be returned. If the credentials are invalid, an `InvalidCredentialsException` will be thrown.
 
 ```php
-$token = $jwtAuth->attempt('admin', 'secret');
-
-if ($token) {
+try {
+    $token = $jwtAuth->attempt('admin', 'secret');
     echo "Token: " . $token;
-} else {
+} catch (\Anddye\JWTAuth\Exceptions\InvalidCredentialsException $e) {
     echo "Invalid credentials";
 }
 ```
