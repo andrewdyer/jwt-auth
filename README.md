@@ -1,16 +1,16 @@
 ![JWT Auth](https://raw.githubusercontent.com/andrewdyer/andrewdyer/refs/heads/main/assets/images/covers/jwt-auth.png)
 
-# JWT Auth
+# 🔑 JWT Auth
 
 A simple framework-agnostic JSON Web Token authentication solution.
 
-## Installation
+## 📥 Installation
 
 ```bash
 composer require andrewdyer/jwt-auth
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Define the JWT Subject
 
@@ -126,7 +126,7 @@ $jwtProvider = new JWTProvider();
 $jwtAuth = new JWTAuth($authProvider, $jwtProvider, $claims);
 ```
 
-## Usage
+## 📖 Usage
 
 ### Attempt Authentication
 
@@ -155,6 +155,6 @@ if ($subject) {
 }
 ```
 
-## License
+## 📄 License
 
 Licensed under MIT. Totally free for private or commercial projects.
