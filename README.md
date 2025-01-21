@@ -4,6 +4,10 @@
 
 A simple framework-agnostic JSON Web Token authentication solution.
 
+## 📄 License
+
+Licensed under the [MIT license](https://opensource.org/licenses/MIT) and is free for private or commercial projects.
+
 ## 📥 Installation
 
 ```bash
@@ -154,7 +158,3 @@ if ($subject) {
     echo "Invalid token";
 }
 ```
-
-## 📄 License
-
-Licensed under MIT. Totally free for private or commercial projects.
