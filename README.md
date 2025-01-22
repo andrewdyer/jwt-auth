@@ -8,6 +8,10 @@ A simple framework-agnostic JSON Web Token authentication solution.
 
 Licensed under the [MIT license](https://opensource.org/licenses/MIT) and is free for private or commercial projects.
 
+## ✨ Introduction
+
+JWT Auth provides a straightforward way to implement JSON Web Token (JWT) authentication in any PHP application. The library offers an easy-to-use interface for generating and validating JWTs, supports custom authentication providers, and provides flexible claims generation and validation. Additionally, it ensures secure token encoding and decoding.
+
 ## 📥 Installation
 
 ```bash
