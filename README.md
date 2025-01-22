@@ -1,18 +1,22 @@
 ![JWT Auth](https://raw.githubusercontent.com/andrewdyer/andrewdyer/refs/heads/main/assets/images/covers/jwt-auth.png)
 
-# JWT Auth
+# 🔑 JWT Auth
 
 A simple framework-agnostic JSON Web Token authentication solution.
 
-## Installation
+## 📄 License
+
+Licensed under the [MIT license](https://opensource.org/licenses/MIT) and is free for private or commercial projects.
+
+## 📥 Installation
 
 ```bash
 composer require andrewdyer/jwt-auth
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
-### Define the JWT Subject
+### 1. Define the JWT Subject
 
 Create a class (e.g., `User`) that implements the `JWTSubject` interface. This class must provide a method `getJWTIdentifier` to return the user’s unique identifier.
 
@@ -32,7 +36,7 @@ class User implements JWTSubject
 
 > **Note:** This example is simplified for demonstration purposes. In a real-world application, you would typically use a proper user model, such as one provided by your framework. Ensure the `getJWTIdentifier` method returns a unique user identifier appropriate for your system.
 
-### Create an Authentication Provider
+### 2. Create an Authentication Provider
 
 Create an authentication provider class that implements `AuthProviderInterface`. This class will handle credential validation and user retrieval by ID.
 
@@ -66,7 +70,7 @@ class AuthProvider implements AuthProviderInterface
 
 > **Note:** This example uses hardcoded credentials for demonstration purposes. In a real-world application, you should validate credentials securely by checking against a database and using hashed passwords (e.g., via libraries like `bcrypt` or `password_hash`). Ensure you follow best practices for secure authentication.
 
-### Create a JWT Provider
+### 3. Create a JWT Provider
 
 Create a JWT provider class that implements `JWTProviderInterface`. This class should handle encoding and decoding JWT tokens.
 
@@ -91,7 +95,7 @@ class JWTProvider implements JWTProviderInterface
 
 > **Note:** This examples used `base64_encode` and `base64_decode` for simplicity. For real-world usage, consider using a proper JWT library such as [firebase/php-jwt](https://github.com/firebase/php-jwt) for better security.
 
-### Generate JWT Claims
+### 4. Generate JWT Claims
 
 The `ClaimsFactory` class helps create a JWT claims instance. The `build` method accepts an array of claims and returns an instance of `ClaimsInterface`.
 
@@ -110,7 +114,7 @@ $claims = ClaimsFactory::build([
 
 > **Note:** This example uses hardcoded Unix timestamps for demonstration purposes. Consider using libraries like [nesbot/carbon](https://github.com/briannesbitt/carbon) or PHP's native `DateTime` class to generate timestamps dynamically. This helps improve readability and ensures accurate date handling.
 
-### Initialize the JWT Authenticator
+### 5. Initialize the JWT Authenticator
 
 Create a new instance of the `JWTAuth` class. This requires an instance of `AuthProviderInterface`, `JWTProviderInterface`, and `ClaimsInterface`.
 
@@ -126,7 +130,7 @@ $jwtProvider = new JWTProvider();
 $jwtAuth = new JWTAuth($authProvider, $jwtProvider, $claims);
 ```
 
-## Usage
+## 📖 Usage
 
 ### Attempt Authentication
 
@@ -154,7 +158,3 @@ if ($subject) {
     echo "Invalid token";
 }
 ```
-
-## License
-
-Licensed under MIT. Totally free for private or commercial projects.
