@@ -2,6 +2,8 @@
 
 namespace Anddye\JWTAuth;
 
+use Anddye\JWTAuth\Exceptions\InvalidCredentialsException;
+use Anddye\JWTAuth\Exceptions\InvalidTokenException;
 use Anddye\JWTAuth\Interfaces\AuthProviderInterface;
 use Anddye\JWTAuth\Interfaces\ClaimsInterface;
 use Anddye\JWTAuth\Interfaces\JWTProviderInterface;
@@ -25,7 +27,7 @@ final class JWTAuth
     public function attempt(string $username, string $password): ?string
     {
         if (!$user = $this->authProvider->byCredentials($username, $password)) {
-            throw new Exceptions\InvalidCredentialsException();
+            throw new InvalidCredentialsException();
         }
 
         return $this->fromSubject($user);
@@ -35,7 +37,11 @@ final class JWTAuth
     {
         $decoded = $this->decode($token);
 
-        return $this->authProvider->byId($decoded->sub);
+        if (!$user = $this->authProvider->byId($decoded->sub)) {
+            throw new InvalidTokenException();
+        }
+
+        return $user;
     }
 
     protected function decode(string $token): mixed
