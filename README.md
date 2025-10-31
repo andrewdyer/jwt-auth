@@ -1,4 +1,4 @@
-![JWT Auth](https://raw.githubusercontent.com/andrewdyer/public-assets/refs/heads/main/images/covers/jwt-auth.png)
+![JWT Auth](https://public-assets.andrewdyer.rocks/images/covers/jwt-auth.png)
 
 # 🔑 JWT Auth
 
