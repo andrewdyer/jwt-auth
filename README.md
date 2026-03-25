@@ -4,7 +4,7 @@ A lightweight, framework-agnostic JWT authentication library for PHP.
 
 ## Introduction
 
-This library provides a clean, interface-driven approach to JSON Web Token authentication. It handles token generation, validation, and user authentication without coupling your code to any specific framework or JWT library. All key behaviours — encoding/decoding tokens, looking up users, and tracking time — are provided through contracts that you implement, making it easy to integrate with any stack.
+This library provides a clean, interface-driven approach to JSON Web Token authentication. It handles token generation, validation, and user authentication without coupling your code to any specific framework or JWT library. All key behaviours — encoding/decoding tokens and looking up users — are provided through contracts that you implement, making it easy to integrate with any stack.
 
 ## Installation
 
@@ -81,47 +81,9 @@ class MyJwtProvider implements JwtProviderInterface
 }
 ```
 
-### 4. Set up the claims factory
+### 4. Implement the claims factory
 
-The built-in `DefaultClaimsFactory` handles standard JWT claims automatically. It requires a `ClockInterface` implementation to provide the current time.
-
-```php
-use AndrewDyer\JwtAuth\Contracts\ClockInterface;
-
-class SystemClock implements ClockInterface
-{
-    public function now(): DateTimeImmutable
-    {
-        return new DateTimeImmutable();
-    }
-}
-```
-
-Then instantiate the factory:
-
-```php
-use AndrewDyer\JwtAuth\DefaultClaimsFactory;
-
-$claimsFactory = new DefaultClaimsFactory(
-    clock: new SystemClock(),
-    issuer: 'my-app',
-    audience: 'my-api',
-    ttl: 3600,
-    notBeforeGrace: 0,
-);
-```
-
-`DefaultClaimsFactory` accepts the following constructor arguments:
-
-| Parameter        | Type             | Default | Description                                        |
-| ---------------- | ---------------- | ------- | -------------------------------------------------- |
-| `clock`          | `ClockInterface` | —       | Provides the current time                          |
-| `issuer`         | `string`         | `'app'` | The `iss` claim value                              |
-| `audience`       | `?string`        | `null`  | The `aud` claim value (omitted if `null`)          |
-| `ttl`            | `int`            | `3600`  | Token lifetime in seconds                          |
-| `notBeforeGrace` | `int`            | `0`     | Seconds after issue before the token becomes valid |
-
-If `DefaultClaimsFactory` does not meet your needs, you can implement `ClaimsFactoryInterface` directly, for example to include custom claims:
+Create a class implementing `ClaimsFactoryInterface` that builds the JWT claims for a given user. The `iat`, `nbf`, and `exp` fields accept plain Unix timestamps, so you can use `time()`, [Carbon](https://github.com/briannesbitt/Carbon), or any other source.
 
 ```php
 use AndrewDyer\JwtAuth\Claims;
@@ -142,11 +104,12 @@ class MyClaimsFactory implements ClaimsFactoryInterface
             exp: $now + 3600,
             jti: bin2hex(random_bytes(16)),
             sub: $subject->getJwtIdentifier(),
-            custom: ['role' => 'admin'],
         );
     }
 }
 ```
+
+If you use Carbon, `Carbon::now()->timestamp` is a drop-in replacement for `time()`.
 
 ## Usage
 
@@ -160,7 +123,7 @@ use AndrewDyer\JwtAuth\JwtAuth;
 $auth = new JwtAuth(
     authProvider: new MyAuthProvider(),
     jwtProvider: new MyJwtProvider(),
-    claimsFactory: $claimsFactory,
+    claimsFactory: new MyClaimsFactory(),
 );
 ```
 

@@ -6,15 +6,13 @@ namespace AndrewDyer\JwtAuth\Tests\Unit;
 
 use AndrewDyer\JwtAuth\Contracts\ClaimsFactoryInterface;
 use AndrewDyer\JwtAuth\Contracts\JwtProviderInterface;
-use AndrewDyer\JwtAuth\DefaultClaimsFactory;
 use AndrewDyer\JwtAuth\Exceptions\InvalidCredentialsException;
 use AndrewDyer\JwtAuth\Exceptions\InvalidTokenException;
 use AndrewDyer\JwtAuth\JwtAuth;
 use AndrewDyer\JwtAuth\Tests\Support\ArrayJwtProvider;
-use AndrewDyer\JwtAuth\Tests\Support\Clock;
+use AndrewDyer\JwtAuth\Tests\Support\ClaimsFactory;
 use AndrewDyer\JwtAuth\Tests\Support\InMemoryAuthProvider;
 use AndrewDyer\JwtAuth\Tests\Support\User;
-use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 final class JwtAuthTest extends TestCase
@@ -25,8 +23,7 @@ final class JwtAuthTest extends TestCase
 
         $authProvider = new InMemoryAuthProvider($user);
         $jwtProvider = new ArrayJwtProvider();
-        $clock = new Clock(new DateTimeImmutable('@1000'));
-        $claimsFactory = new DefaultClaimsFactory(clock: $clock, issuer: 'app');
+        $claimsFactory = new ClaimsFactory(now: 1000);
 
         $auth = new JwtAuth(
             authProvider: $authProvider,
@@ -111,8 +108,7 @@ final class JwtAuthTest extends TestCase
 
         $authProvider = new InMemoryAuthProvider($user);
         $jwtProvider = new ArrayJwtProvider();
-        $clock = new Clock(new DateTimeImmutable('@1000'));
-        $claimsFactory = new DefaultClaimsFactory(clock: $clock, ttl: 3600);
+        $claimsFactory = new ClaimsFactory(now: 6000, ttl: 3600);
 
         $auth = new JwtAuth(
             authProvider: $authProvider,
@@ -129,8 +125,6 @@ final class JwtAuthTest extends TestCase
             'iss' => 'app',
         ];
         $token = base64_encode(json_encode($oldPayload));
-
-        $clock->advanceSeconds(5000);
 
         $newToken = $auth->refresh($token);
 
