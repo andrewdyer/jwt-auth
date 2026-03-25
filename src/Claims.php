@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace AndrewDyer\JwtAuth;
 
+use AndrewDyer\JwtAuth\Exceptions\InvalidTokenException;
+
 final readonly class Claims
 {
     public function __construct(
@@ -33,6 +35,26 @@ final readonly class Claims
 
     public static function fromArray(array $data): self
     {
+        foreach (['iat', 'nbf', 'exp', 'jti', 'sub'] as $key) {
+            if (!array_key_exists($key, $data)) {
+                throw new InvalidTokenException("Missing required claim: {$key}.");
+            }
+        }
+
+        foreach (['iat', 'nbf', 'exp'] as $key) {
+            if (!is_int($data[$key])) {
+                throw new InvalidTokenException("Claim '{$key}' must be an integer.");
+            }
+        }
+
+        if (!is_string($data['jti'])) {
+            throw new InvalidTokenException("Claim 'jti' must be a string.");
+        }
+
+        if (!is_int($data['sub']) && !is_string($data['sub'])) {
+            throw new InvalidTokenException("Claim 'sub' must be an integer or string.");
+        }
+
         return new self(
             iss: $data['iss'] ?? 'app',
             aud: $data['aud'] ?? null,

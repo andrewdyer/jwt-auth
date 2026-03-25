@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AndrewDyer\JwtAuth\Tests\Unit;
 
 use AndrewDyer\JwtAuth\Claims;
+use AndrewDyer\JwtAuth\Exceptions\InvalidTokenException;
 use PHPUnit\Framework\TestCase;
 
 final class ClaimsTest extends TestCase
@@ -140,5 +141,51 @@ final class ClaimsTest extends TestCase
         $this->assertSame($claims->jti, $rebuilt->jti);
         $this->assertSame($claims->sub, $rebuilt->sub);
         $this->assertSame($claims->custom, $rebuilt->custom);
+    }
+
+    /**
+     * @dataProvider missingRequiredClaimProvider
+     */
+    public function testFromArrayThrowsOnMissingRequiredClaim(array $data): void
+    {
+        $this->expectException(InvalidTokenException::class);
+
+        Claims::fromArray($data);
+    }
+
+    public static function missingRequiredClaimProvider(): array
+    {
+        $base = ['iat' => 1000, 'nbf' => 1000, 'exp' => 2000, 'jti' => 'abc', 'sub' => 1];
+
+        return [
+            'missing iat' => [array_diff_key($base, ['iat' => true])],
+            'missing nbf' => [array_diff_key($base, ['nbf' => true])],
+            'missing exp' => [array_diff_key($base, ['exp' => true])],
+            'missing jti' => [array_diff_key($base, ['jti' => true])],
+            'missing sub' => [array_diff_key($base, ['sub' => true])],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidClaimTypeProvider
+     */
+    public function testFromArrayThrowsOnInvalidClaimType(array $data): void
+    {
+        $this->expectException(InvalidTokenException::class);
+
+        Claims::fromArray($data);
+    }
+
+    public static function invalidClaimTypeProvider(): array
+    {
+        $base = ['iat' => 1000, 'nbf' => 1000, 'exp' => 2000, 'jti' => 'abc', 'sub' => 1];
+
+        return [
+            'iat not int' => [array_merge($base, ['iat' => '1000'])],
+            'nbf not int' => [array_merge($base, ['nbf' => '1000'])],
+            'exp not int' => [array_merge($base, ['exp' => '2000'])],
+            'jti not string' => [array_merge($base, ['jti' => 123])],
+            'sub invalid type' => [array_merge($base, ['sub' => 1.5])],
+        ];
     }
 }
