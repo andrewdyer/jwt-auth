@@ -1,6 +1,6 @@
 # JWT Auth
 
-A lightweight, framework-agnostic JWT authentication library for PHP.
+A lightweight, framework-agnostic JWT authentication orchestrator for PHP, built around contracts for user resolution, token handling, and claims generation.
 
 ## Introduction
 
