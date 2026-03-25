@@ -6,7 +6,7 @@ namespace AndrewDyer\JwtAuth\Contracts;
 
 interface AuthProviderInterface
 {
-    public function byCredentials(string $username, string $password): mixed;
+    public function byCredentials(string $username, string $password): ?JwtSubjectInterface;
 
-    public function byId(int|string $id): mixed;
+    public function byId(int|string $id): ?JwtSubjectInterface;
 }

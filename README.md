@@ -43,12 +43,12 @@ use AndrewDyer\JwtAuth\Contracts\AuthProviderInterface;
 
 class MyAuthProvider implements AuthProviderInterface
 {
-    public function byCredentials(string $username, string $password): mixed
+    public function byCredentials(string $username, string $password): ?JwtSubjectInterface
     {
         // Return a JwtSubjectInterface instance on success, or null on failure
     }
 
-    public function byId(int|string $id): mixed
+    public function byId(int|string $id): ?JwtSubjectInterface
     {
         // Return a JwtSubjectInterface instance, or null if not found
     }

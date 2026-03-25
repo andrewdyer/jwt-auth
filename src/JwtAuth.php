@@ -24,7 +24,7 @@ final readonly class JwtAuth
     {
         $user = $this->authProvider->byCredentials($username, $password);
 
-        if (!$user instanceof JwtSubjectInterface) {
+        if ($user === null) {
             throw new InvalidCredentialsException();
         }
 
@@ -37,7 +37,7 @@ final readonly class JwtAuth
 
         $user = $this->authProvider->byId($claims->sub);
 
-        if (!$user instanceof JwtSubjectInterface) {
+        if ($user === null) {
             throw new InvalidTokenException();
         }
 
