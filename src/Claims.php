@@ -35,7 +35,7 @@ final readonly class Claims
 
     public static function fromArray(array $data): self
     {
-        foreach (['iat', 'nbf', 'exp', 'jti', 'sub'] as $key) {
+        foreach (['iss', 'iat', 'nbf', 'exp', 'jti', 'sub'] as $key) {
             if (!array_key_exists($key, $data)) {
                 throw new InvalidTokenException("Missing required claim: {$key}.");
             }
@@ -55,8 +55,16 @@ final readonly class Claims
             throw new InvalidTokenException("Claim 'sub' must be an integer or string.");
         }
 
+        if (!is_string($data['iss'])) {
+            throw new InvalidTokenException("Claim 'iss' must be a string.");
+        }
+
+        if (array_key_exists('aud', $data) && $data['aud'] !== null && !is_string($data['aud'])) {
+            throw new InvalidTokenException("Claim 'aud' must be a string or null.");
+        }
+
         return new self(
-            iss: $data['iss'] ?? 'app',
+            iss: $data['iss'],
             aud: $data['aud'] ?? null,
             iat: $data['iat'],
             nbf: $data['nbf'],

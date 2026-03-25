@@ -77,6 +77,7 @@ final class ClaimsTest extends TestCase
     public function testFromArrayAppliesDefaultsAndExtractsCustomClaims(): void
     {
         $claims = Claims::fromArray([
+            'iss' => 'app',
             'iat' => 1000,
             'nbf' => 1000,
             'exp' => 2000,
@@ -155,9 +156,10 @@ final class ClaimsTest extends TestCase
 
     public static function missingRequiredClaimProvider(): array
     {
-        $base = ['iat' => 1000, 'nbf' => 1000, 'exp' => 2000, 'jti' => 'abc', 'sub' => 1];
+        $base = ['iss' => 'app', 'iat' => 1000, 'nbf' => 1000, 'exp' => 2000, 'jti' => 'abc', 'sub' => 1];
 
         return [
+            'missing iss' => [array_diff_key($base, ['iss' => true])],
             'missing iat' => [array_diff_key($base, ['iat' => true])],
             'missing nbf' => [array_diff_key($base, ['nbf' => true])],
             'missing exp' => [array_diff_key($base, ['exp' => true])],
@@ -178,7 +180,7 @@ final class ClaimsTest extends TestCase
 
     public static function invalidClaimTypeProvider(): array
     {
-        $base = ['iat' => 1000, 'nbf' => 1000, 'exp' => 2000, 'jti' => 'abc', 'sub' => 1];
+        $base = ['iss' => 'app', 'iat' => 1000, 'nbf' => 1000, 'exp' => 2000, 'jti' => 'abc', 'sub' => 1];
 
         return [
             'iat not int' => [array_merge($base, ['iat' => '1000'])],
@@ -186,6 +188,8 @@ final class ClaimsTest extends TestCase
             'exp not int' => [array_merge($base, ['exp' => '2000'])],
             'jti not string' => [array_merge($base, ['jti' => 123])],
             'sub invalid type' => [array_merge($base, ['sub' => 1.5])],
+            'iss not string' => [array_merge($base, ['iss' => 42])],
+            'aud not string' => [array_merge($base, ['aud' => 99])],
         ];
     }
 }

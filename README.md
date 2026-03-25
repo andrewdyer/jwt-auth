@@ -189,7 +189,7 @@ You can serialize a `Claims` instance back to an array using `toArray()`, which 
 $array = $claims->toArray();
 ```
 
-You can also construct a `Claims` instance directly from an array:
+You can also construct a `Claims` instance directly from an array. The claims `iss`, `iat`, `nbf`, `exp`, `jti`, and `sub` are all required; `aud` is optional and defaults to `null` if omitted. All values must match their expected types — throws `InvalidTokenException` if any required claim is missing or any claim has an invalid type:
 
 ```php
 $claims = Claims::fromArray([
@@ -207,10 +207,10 @@ Any keys not in the standard set are captured in the `custom` array.
 
 ## Exceptions
 
-| Exception                     | Thrown when                                                                  |
-| ----------------------------- | ---------------------------------------------------------------------------- |
-| `InvalidCredentialsException` | `attempt()` is called and the credentials do not resolve to a valid user     |
-| `InvalidTokenException`       | A token cannot be decoded, or the subject cannot be resolved to a valid user |
+| Exception                     | Thrown when                                                                                                                     |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `InvalidCredentialsException` | `attempt()` is called and the credentials do not resolve to a valid user                                                        |
+| `InvalidTokenException`       | A token cannot be decoded, required claims are missing or have invalid types, or the subject cannot be resolved to a valid user |
 
 Both extend `RuntimeException`.
 
