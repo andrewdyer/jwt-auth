@@ -16,30 +16,98 @@ Requires PHP 8.3 or newer.
 
 ## Getting Started
 
-`JwtAuth` requires three dependencies, all defined as contracts:
+### 1. Implement the JWT subject
 
-- `AuthProviderInterface` — looks up users by credentials or ID
-- `JwtProviderInterface` — encodes and decodes JWT tokens
-- `ClaimsFactoryInterface` — builds the claims payload for a given user
-
-The built-in `DefaultClaimsFactory` covers most use cases. Wire everything up like this:
+Any class that represents an authenticated user or entity must implement `JwtSubjectInterface`. This provides the identifier that will be stored in the token's `sub` claim.
 
 ```php
-declare(strict_types=1);
+use AndrewDyer\JwtAuth\Contracts\JwtSubjectInterface;
 
+class User implements JwtSubjectInterface
+{
+    public function __construct(private int $id) {}
+
+    public function getJwtIdentifier(): int|string
+    {
+        return $this->id;
+    }
+}
+```
+
+### 2. Implement the auth provider
+
+Create a class implementing `AuthProviderInterface` that resolves users by credentials or by ID. `JwtAuth` calls these methods internally during `attempt()`, `authenticate()`, and `refresh()`.
+
+```php
+use AndrewDyer\JwtAuth\Contracts\AuthProviderInterface;
+
+class MyAuthProvider implements AuthProviderInterface
+{
+    public function byCredentials(string $username, string $password): mixed
+    {
+        // Return a JwtSubjectInterface instance on success, or null on failure
+    }
+
+    public function byId(int|string $id): mixed
+    {
+        // Return a JwtSubjectInterface instance, or null if not found
+    }
+}
+```
+
+### 3. Implement the JWT provider
+
+Create a class implementing `JwtProviderInterface` to handle token encoding and decoding. This is where you plug in your preferred JWT library such as [`firebase/php-jwt`](https://github.com/firebase/php-jwt) or [`lcobucci/jwt`](https://github.com/lcobucci/jwt).
+
+```php
+use AndrewDyer\JwtAuth\Contracts\JwtProviderInterface;
+
+class MyJwtProvider implements JwtProviderInterface
+{
+    public function encode(array $claims): string
+    {
+        // Encode the claims array into a signed token string
+    }
+
+    public function decode(string $token): mixed
+    {
+        // Decode and verify the token; return the payload as an array or object
+    }
+
+    public function decodeUnverified(string $token): mixed
+    {
+        // Decode without signature verification (used during token refresh)
+    }
+}
+```
+
+### 4. Set up the claims factory
+
+The built-in `DefaultClaimsFactory` handles standard JWT claims automatically. It requires a `ClockInterface` implementation to provide the current time.
+
+```php
+use AndrewDyer\JwtAuth\Contracts\ClockInterface;
+
+class SystemClock implements ClockInterface
+{
+    public function now(): DateTimeImmutable
+    {
+        return new DateTimeImmutable();
+    }
+}
+```
+
+Then instantiate the factory:
+
+```php
 use AndrewDyer\JwtAuth\DefaultClaimsFactory;
-use AndrewDyer\JwtAuth\JwtAuth;
 
-$auth = new JwtAuth(
-    authProvider: new MyAuthProvider(),
-    jwtProvider: new MyJwtProvider(),
-    claimsFactory: new DefaultClaimsFactory(
-        clock: new MyClock(),
-        issuer: 'my-app',
-        audience: 'my-api',
-        ttl: 3600,
-        notBeforeGrace: 0,
-    ),
+$claimsFactory = new DefaultClaimsFactory(
+    clock: new SystemClock(),
+    issuer: 'my-app',
+    audience: 'my-api',
+    ttl: 3600,
+    notBeforeGrace: 0,
 );
 ```
 
@@ -53,7 +121,48 @@ $auth = new JwtAuth(
 | `ttl`            | `int`            | `3600`  | Token lifetime in seconds                          |
 | `notBeforeGrace` | `int`            | `0`     | Seconds after issue before the token becomes valid |
 
+If `DefaultClaimsFactory` does not meet your needs, you can implement `ClaimsFactoryInterface` directly, for example to include custom claims:
+
+```php
+use AndrewDyer\JwtAuth\Claims;
+use AndrewDyer\JwtAuth\Contracts\ClaimsFactoryInterface;
+use AndrewDyer\JwtAuth\Contracts\JwtSubjectInterface;
+
+class MyClaimsFactory implements ClaimsFactoryInterface
+{
+    public function forSubject(JwtSubjectInterface $subject): Claims
+    {
+        $now = time();
+
+        return new Claims(
+            iss: 'my-app',
+            aud: 'my-api',
+            iat: $now,
+            nbf: $now,
+            exp: $now + 3600,
+            jti: bin2hex(random_bytes(16)),
+            sub: $subject->getJwtIdentifier(),
+            custom: ['role' => 'admin'],
+        );
+    }
+}
+```
+
 ## Usage
+
+### Create a JwtAuth instance
+
+Wire up the three dependencies and create a `JwtAuth` instance:
+
+```php
+use AndrewDyer\JwtAuth\JwtAuth;
+
+$auth = new JwtAuth(
+    authProvider: new MyAuthProvider(),
+    jwtProvider: new MyJwtProvider(),
+    claimsFactory: $claimsFactory,
+);
+```
 
 ### Attempt a login
 
@@ -151,118 +260,6 @@ $claims = Claims::fromArray([
 ```
 
 Any keys not in the standard set are captured in the `custom` array.
-
-## Contracts
-
-### `JwtSubjectInterface`
-
-Any user or entity that can be represented in a JWT must implement this interface.
-
-```php
-use AndrewDyer\JwtAuth\Contracts\JwtSubjectInterface;
-
-class User implements JwtSubjectInterface
-{
-    public function __construct(private int $id) {}
-
-    public function getJwtIdentifier(): int|string
-    {
-        return $this->id;
-    }
-}
-```
-
-### `AuthProviderInterface`
-
-Responsible for resolving users by credentials or by ID.
-
-```php
-use AndrewDyer\JwtAuth\Contracts\AuthProviderInterface;
-
-class MyAuthProvider implements AuthProviderInterface
-{
-    public function byCredentials(string $username, string $password): mixed
-    {
-        // Return a JwtSubjectInterface instance on success, or null on failure
-    }
-
-    public function byId(int|string $id): mixed
-    {
-        // Return a JwtSubjectInterface instance, or null if not found
-    }
-}
-```
-
-### `JwtProviderInterface`
-
-Responsible for encoding and decoding JWT tokens. Implement this to plug in your preferred JWT library (e.g. `firebase/php-jwt`, `lcobucci/jwt`).
-
-```php
-use AndrewDyer\JwtAuth\Contracts\JwtProviderInterface;
-
-class MyJwtProvider implements JwtProviderInterface
-{
-    public function encode(array $claims): string
-    {
-        // Encode the claims array into a signed token string
-    }
-
-    public function decode(string $token): mixed
-    {
-        // Decode and verify the token; return the payload as an array or object
-    }
-
-    public function decodeUnverified(string $token): mixed
-    {
-        // Decode without verification (used during token refresh)
-    }
-}
-```
-
-### `ClockInterface`
-
-Provides the current time as a `DateTimeImmutable`. Implementing this allows you to control time in tests.
-
-```php
-use AndrewDyer\JwtAuth\Contracts\ClockInterface;
-
-class SystemClock implements ClockInterface
-{
-    public function now(): DateTimeImmutable
-    {
-        return new DateTimeImmutable();
-    }
-}
-```
-
-### `ClaimsFactoryInterface`
-
-If `DefaultClaimsFactory` does not meet your needs, you can provide your own implementation, for example to include custom claims.
-
-```php
-use AndrewDyer\JwtAuth\Claims;
-use AndrewDyer\JwtAuth\Contracts\ClaimsFactoryInterface;
-use AndrewDyer\JwtAuth\Contracts\JwtSubjectInterface;
-
-class CustomClaimsFactory implements ClaimsFactoryInterface
-{
-    public function forSubject(JwtSubjectInterface $subject): Claims
-    {
-        $now = time();
-
-        return new Claims(
-            iss: 'my-app',
-            aud: 'my-api',
-            iat: $now,
-            nbf: $now,
-            exp: $now + 3600,
-            jti: bin2hex(random_bytes(16)),
-            sub: $subject->getJwtIdentifier(),
-            custom: ['role' => 'admin'],
-        );
-    }
-}
-```
 
 ## Exceptions
 
