@@ -15,11 +15,6 @@ final class ArrayJwtProvider implements JwtProviderInterface
         return json_decode(base64_decode($token));
     }
 
-    public function decodeUnverified(string $token): mixed
-    {
-        return json_decode(base64_decode($token));
-    }
-
     public function encode(array $claims): string
     {
         $this->lastEncoded = $claims;

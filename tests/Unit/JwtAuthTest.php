@@ -102,78 +102,6 @@ final class JwtAuthTest extends TestCase
         $auth->authenticate($token);
     }
 
-    public function testRefreshReturnsNewTokenWithUpdatedTimestampsAndJti(): void
-    {
-        $user = new User(42);
-
-        $authProvider = new InMemoryAuthProvider($user);
-        $jwtProvider = new ArrayJwtProvider();
-        $claimsFactory = new ClaimsFactory(now: 6000, ttl: 3600);
-
-        $auth = new JwtAuth(
-            authProvider: $authProvider,
-            jwtProvider: $jwtProvider,
-            claimsFactory: $claimsFactory,
-        );
-
-        $oldPayload = [
-            'sub' => 42,
-            'iat' => 1000,
-            'nbf' => 1000,
-            'exp' => 1001,
-            'jti' => 'old',
-            'iss' => 'app',
-        ];
-        $token = base64_encode(json_encode($oldPayload));
-
-        $newToken = $auth->refresh($token);
-
-        $this->assertIsString($newToken);
-
-        $newPayload = json_decode(base64_decode($newToken), true);
-        $this->assertSame(42, $newPayload['sub']);
-        $this->assertGreaterThan($oldPayload['iat'], $newPayload['iat']);
-        $this->assertGreaterThan($oldPayload['exp'], $newPayload['exp']);
-        $this->assertNotSame('old', $newPayload['jti']);
-    }
-
-    public function testRefreshThrowsInvalidTokenExceptionForMissingSubjectClaim(): void
-    {
-        $auth = new JwtAuth(
-            authProvider: new InMemoryAuthProvider(),
-            jwtProvider: new ArrayJwtProvider(),
-            claimsFactory: $this->createMock(ClaimsFactoryInterface::class),
-        );
-
-        $token = base64_encode(json_encode(['foo' => 'bar']));
-
-        $this->expectException(InvalidTokenException::class);
-
-        $auth->refresh($token);
-    }
-
-    public function testRefreshThrowsInvalidTokenExceptionWhenUserNotFound(): void
-    {
-        $auth = new JwtAuth(
-            authProvider: new InMemoryAuthProvider(null),
-            jwtProvider: new ArrayJwtProvider(),
-            claimsFactory: $this->createMock(ClaimsFactoryInterface::class),
-        );
-
-        $token = base64_encode(json_encode([
-            'sub' => 123,
-            'iat' => 1000,
-            'nbf' => 1000,
-            'exp' => 2000,
-            'jti' => 'abc',
-            'iss' => 'app',
-        ]));
-
-        $this->expectException(InvalidTokenException::class);
-
-        $auth->refresh($token);
-    }
-
     public function testParseReturnsClaimsFromArrayPayload(): void
     {
         $jwtProvider = new class () implements JwtProviderInterface {
@@ -188,11 +116,6 @@ final class JwtAuthTest extends TestCase
                     'iss' => 'api',
                     'role' => 'admin',
                 ];
-            }
-
-            public function decodeUnverified(string $token): mixed
-            {
-                return null;
             }
 
             public function encode(array $claims): string
@@ -252,38 +175,5 @@ final class JwtAuthTest extends TestCase
         $this->expectException(InvalidTokenException::class);
 
         $auth->parse($token);
-    }
-
-    public function testRefreshThrowsInvalidTokenExceptionWhenDecodeUnverifiedReturnsNonObject(): void
-    {
-        $jwtProvider = new class () implements JwtProviderInterface {
-            public function decode(string $token): mixed
-            {
-                return null;
-            }
-
-            public function decodeUnverified(string $token): mixed
-            {
-                return [
-                    'sub' => 5,
-                    'iat' => 1,
-                ];
-            }
-
-            public function encode(array $claims): string
-            {
-                return '';
-            }
-        };
-
-        $auth = new JwtAuth(
-            authProvider: new InMemoryAuthProvider(),
-            jwtProvider: $jwtProvider,
-            claimsFactory: $this->createMock(ClaimsFactoryInterface::class),
-        );
-
-        $this->expectException(InvalidTokenException::class);
-
-        $auth->refresh('token');
     }
 }

@@ -8,7 +8,5 @@ interface JwtProviderInterface
 {
     public function decode(string $token): mixed;
 
-    public function decodeUnverified(string $token): mixed;
-
     public function encode(array $claims): string;
 }

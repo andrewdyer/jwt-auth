@@ -4,7 +4,7 @@ A lightweight, framework-agnostic JWT authentication orchestrator for PHP, built
 
 ## Introduction
 
-This library provides a clean, contract-driven approach to JSON Web Token authentication by coordinating token issuance, parsing, and refreshing while delegating token handling, user resolution, and claims generation to user-defined implementations. By relying on simple interfaces, it remains fully framework-agnostic and unopinionated, allowing you to integrate it with any authentication system or JWT library.
+This library provides a clean, contract-driven approach to JSON Web Token authentication by coordinating token issuance and parsing while delegating token handling, user resolution, and claims generation to user-defined implementations. By relying on simple interfaces, it remains fully framework-agnostic and unopinionated, allowing you to integrate it with any authentication system or JWT library.
 
 ## Installation
 
@@ -36,7 +36,7 @@ class User implements JwtSubjectInterface
 
 ### 2. Implement the auth provider
 
-Create a class implementing `AuthProviderInterface` that resolves users by credentials or by ID. `JwtAuth` calls these methods internally during `attempt()`, `authenticate()`, and `refresh()`.
+Create a class implementing `AuthProviderInterface` that resolves users by credentials or by ID. `JwtAuth` calls these methods internally during `attempt()` and `authenticate()`.
 
 ```php
 use AndrewDyer\JwtAuth\Contracts\AuthProviderInterface;
@@ -72,11 +72,6 @@ class MyJwtProvider implements JwtProviderInterface
     public function decode(string $token): mixed
     {
         // Decode and verify the token; return the payload as an array or object
-    }
-
-    public function decodeUnverified(string $token): mixed
-    {
-        // Decode without signature verification (used during token refresh)
     }
 }
 ```
@@ -170,20 +165,6 @@ try {
     echo $claims->exp; // Expiry timestamp
 } catch (InvalidTokenException $e) {
     // Token could not be decoded
-}
-```
-
-### Refresh a token
-
-Decode the token without full verification, look up the user, and issue a fresh token. Useful for extending sessions without requiring a full re-login. Throws `InvalidTokenException` if the token payload is unusable or the user cannot be found.
-
-```php
-use AndrewDyer\JwtAuth\Exceptions\InvalidTokenException;
-
-try {
-    $newToken = $auth->refresh($token);
-} catch (InvalidTokenException $e) {
-    // Token could not be refreshed
 }
 ```
 

@@ -55,23 +55,6 @@ final readonly class JwtAuth
         return Claims::fromArray((array)$decoded);
     }
 
-    public function refresh(string $token): string
-    {
-        $decoded = $this->jwtProvider->decodeUnverified($token);
-
-        if (!is_object($decoded) || !isset($decoded->sub)) {
-            throw new InvalidTokenException();
-        }
-
-        $user = $this->authProvider->byId($decoded->sub);
-
-        if (!$user instanceof JwtSubjectInterface) {
-            throw new InvalidTokenException();
-        }
-
-        return $this->fromSubject($user);
-    }
-
     private function fromSubject(JwtSubjectInterface $subject): string
     {
         $claims = $this->claimsFactory->forSubject($subject);
