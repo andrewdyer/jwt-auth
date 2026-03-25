@@ -4,7 +4,7 @@ A lightweight, framework-agnostic JWT authentication orchestrator for PHP, built
 
 ## Introduction
 
-This library provides a clean, interface-driven approach to JSON Web Token authentication. It handles token generation, validation, and user authentication without coupling your code to any specific framework or JWT library. All key behaviours — encoding/decoding tokens and looking up users — are provided through contracts that you implement, making it easy to integrate with any stack.
+This library provides a clean, contract-driven approach to JSON Web Token authentication by coordinating token issuance, parsing, and refreshing while delegating token handling, user resolution, and claims generation to user-defined implementations. By relying on simple interfaces, it remains fully framework-agnostic and unopinionated, allowing you to integrate it with any authentication system or JWT library.
 
 ## Installation
 
