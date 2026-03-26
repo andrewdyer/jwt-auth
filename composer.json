@@ -1,15 +1,16 @@
 {
-  "name": "your-vendor/your-package",
-  "description": "",
+  "name": "andrewdyer/jwt-auth",
+  "description": "A lightweight, framework-agnostic JWT authentication orchestrator for PHP, built around contracts for user resolution, token handling, and claims generation",
   "type": "library",
+  "license": "MIT",
   "autoload": {
     "psr-4": {
-      "YourVendor\\YourPackage\\": "src/"
+      "AndrewDyer\\JwtAuth\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "YourVendor\\YourPackage\\Tests\\": "tests/"
+      "AndrewDyer\\JwtAuth\\Tests\\": "tests/"
     }
   },
   "require": {
