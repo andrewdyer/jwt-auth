@@ -4,7 +4,7 @@ A lightweight, framework-agnostic JWT authentication orchestrator for PHP, built
 
 ## Introduction
 
-This library provides a clean, contract-driven approach to JSON Web Token authentication by coordinating token issuance and parsing while delegating token handling, user resolution, and claims generation to user-defined implementations. By relying on simple interfaces, it remains fully framework-agnostic and unopinionated, allowing you to integrate it with any authentication system or JWT library.
+This library provides a clean, contract-driven approach to JSON Web Token authentication by coordinating token issuance and parsing while delegating token handling, user resolution, and claims generation to user-defined implementations. By relying on simple interfaces, it remains fully framework-agnostic and unopinionated, allowing integration with any authentication system or JWT library.
 
 ## Installation
 
@@ -36,7 +36,7 @@ class User implements JwtSubjectInterface
 
 ### 2. Implement the auth provider
 
-Create a class implementing `AuthProviderInterface` that resolves users by credentials or by ID. `JwtAuth` calls these methods internally during `attempt()` and `authenticate()`.
+A class implementing `AuthProviderInterface` must be provided to resolve users by credentials or by ID. `JwtAuth` calls these methods internally during `attempt()` and `authenticate()`.
 
 ```php
 use AndrewDyer\JwtAuth\Contracts\AuthProviderInterface;
@@ -57,7 +57,7 @@ class MyAuthProvider implements AuthProviderInterface
 
 ### 3. Implement the JWT provider
 
-Create a class implementing `JwtProviderInterface` to handle token encoding and decoding. This is where you plug in your preferred JWT library such as [`firebase/php-jwt`](https://github.com/firebase/php-jwt) or [`lcobucci/jwt`](https://github.com/lcobucci/jwt).
+A class implementing `JwtProviderInterface` handles token encoding and decoding. This is the integration point for a preferred JWT library such as [`firebase/php-jwt`](https://github.com/firebase/php-jwt) or [`lcobucci/jwt`](https://github.com/lcobucci/jwt).
 
 ```php
 use AndrewDyer\JwtAuth\Contracts\JwtProviderInterface;
@@ -78,7 +78,7 @@ class MyJwtProvider implements JwtProviderInterface
 
 ### 4. Implement the claims factory
 
-Create a class implementing `ClaimsFactoryInterface` that builds the JWT claims for a given user. The `iat`, `nbf`, and `exp` fields accept plain Unix timestamps, so you can use `time()`, [Carbon](https://github.com/briannesbitt/Carbon), or any other source.
+A class implementing `ClaimsFactoryInterface` builds the JWT claims for a given user. The `iat`, `nbf`, and `exp` fields accept plain Unix timestamps from `time()`, [Carbon](https://github.com/briannesbitt/Carbon), or any other source.
 
 ```php
 use AndrewDyer\JwtAuth\Claims;
@@ -104,13 +104,13 @@ class MyClaimsFactory implements ClaimsFactoryInterface
 }
 ```
 
-If you use Carbon, `Carbon::now()->timestamp` is a drop-in replacement for `time()`.
+When using Carbon, `Carbon::now()->timestamp` is a drop-in replacement for `time()`.
 
 ## Usage
 
 ### Create a JwtAuth instance
 
-Wire up the three dependencies and create a `JwtAuth` instance:
+The three dependencies are wired up to create a `JwtAuth` instance:
 
 ```php
 use AndrewDyer\JwtAuth\JwtAuth;
@@ -124,7 +124,7 @@ $auth = new JwtAuth(
 
 ### Attempt a login
 
-Validate a username and password and return a signed token. Throws `InvalidCredentialsException` if the credentials are invalid.
+Validates a username and password and returns a signed token. Throws `InvalidCredentialsException` if the credentials are invalid.
 
 ```php
 use AndrewDyer\JwtAuth\Exceptions\InvalidCredentialsException;
@@ -138,7 +138,7 @@ try {
 
 ### Authenticate a token
 
-Decode a token, verify it, and return the corresponding user. Throws `InvalidTokenException` if the token is invalid or the user cannot be found.
+Decodes a token, verifies it, and returns the corresponding user. Throws `InvalidTokenException` if the token is invalid or the user cannot be found.
 
 ```php
 use AndrewDyer\JwtAuth\Exceptions\InvalidTokenException;
@@ -152,7 +152,7 @@ try {
 
 ### Parse a token
 
-Decode a token into a `Claims` object without looking up the user.
+Decodes a token into a `Claims` object without looking up the user.
 
 ```php
 use AndrewDyer\JwtAuth\Exceptions\InvalidTokenException;
@@ -183,13 +183,13 @@ The `Claims` class is a read-only value object representing the payload of a JWT
 | `sub`    | `int\|string` | Subject identifier (user ID) |
 | `custom` | `array`       | Any additional custom claims |
 
-You can serialize a `Claims` instance back to an array using `toArray()`, which omits null values:
+A `Claims` instance can be serialized back to an array using `toArray()`, which omits null values:
 
 ```php
 $array = $claims->toArray();
 ```
 
-You can also construct a `Claims` instance directly from an array. The claims `iss`, `iat`, `nbf`, `exp`, `jti`, and `sub` are all required; `aud` is optional and defaults to `null` if omitted. All values must match their expected types — throws `InvalidTokenException` if any required claim is missing or any claim has an invalid type:
+A `Claims` instance can also be constructed directly from an array. The claims `iss`, `iat`, `nbf`, `exp`, `jti`, and `sub` are all required; `aud` is optional and defaults to `null` if omitted. All values must match their expected types — throws `InvalidTokenException` if any required claim is missing or any claim has an invalid type:
 
 ```php
 $claims = Claims::fromArray([
