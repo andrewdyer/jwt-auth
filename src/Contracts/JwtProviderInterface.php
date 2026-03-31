@@ -16,18 +16,18 @@ interface JwtProviderInterface
     /**
      * Decodes a JWT string and returns its payload.
      *
-     * @param string $token The signed JWT string to decode.
+     * @param string $token The JWT string to decode.
      *
      * @return mixed The decoded payload, typically an associative array or stdClass object.
      */
     public function decode(string $token): mixed;
 
     /**
-     * Encodes a claims array as a signed JWT string.
+     * Encodes a claims array as a JWT string.
      *
      * @param array<string, mixed> $claims The claims payload to encode.
      *
-     * @return string A signed JWT string representing the provided claims.
+     * @return string A JWT string representing the provided claims.
      */
     public function encode(array $claims): string;
 }
