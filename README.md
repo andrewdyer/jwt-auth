@@ -2,19 +2,22 @@
 
 A lightweight, framework-agnostic JWT authentication orchestrator for PHP, built around contracts for user resolution, token handling, and claims generation.
 
-## Introduction
+## ✨ Introduction
 
 This library provides a clean, contract-driven approach to JSON Web Token authentication by coordinating token issuance and parsing while delegating token handling, user resolution, and claims generation to user-defined implementations. By relying on simple interfaces, it remains fully framework-agnostic and unopinionated, allowing integration with any authentication system or JWT library.
 
-## Installation
+## 📋 Prerequisites
+
+- **[PHP](https://www.php.net/)**: Version 8.3 or higher is required.
+- **[Composer](https://getcomposer.org/)**: Dependency management tool for PHP.
+
+## 📥 Installation
 
 ```bash
 composer require andrewdyer/jwt-auth
 ```
 
-Requires PHP 8.3 or newer.
-
-## Getting Started
+## 🚀 Getting Started
 
 ### 1. Implement the JWT subject
 
@@ -106,7 +109,7 @@ class MyClaimsFactory implements ClaimsFactoryInterface
 
 When using Carbon, `Carbon::now()->timestamp` is a drop-in replacement for `time()`.
 
-## Usage
+## 📚 Usage
 
 ### Create a JwtAuth instance
 
@@ -168,7 +171,7 @@ try {
 }
 ```
 
-## Claims
+## 🔑 Claims
 
 The `Claims` class is a read-only value object representing the payload of a JWT. It exposes the standard registered claims as typed public properties:
 
@@ -205,7 +208,7 @@ $claims = Claims::fromArray([
 
 Any keys not in the standard set are captured in the `custom` array.
 
-## Exceptions
+## ⚠️ Exceptions
 
 | Exception                     | Thrown when                                                                                                                     |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -214,6 +217,6 @@ Any keys not in the standard set are captured in the `custom` array.
 
 Both extend `RuntimeException`.
 
-## License
+## ⚖️ License
 
 Licensed under the [MIT license](https://opensource.org/licenses/MIT) and is free for private or commercial projects.

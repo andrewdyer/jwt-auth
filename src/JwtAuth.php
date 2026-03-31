@@ -11,8 +11,19 @@ use AndrewDyer\JwtAuth\Contracts\JwtSubjectInterface;
 use AndrewDyer\JwtAuth\Exceptions\InvalidCredentialsException;
 use AndrewDyer\JwtAuth\Exceptions\InvalidTokenException;
 
+/**
+ * Entry point for JWT-based authentication.
+ *
+ * Orchestrates credential validation, token issuance, and token verification
+ * by delegating to the injected authentication, JWT, and claims-factory providers.
+ */
 final readonly class JwtAuth
 {
+    /**
+     * @param AuthProviderInterface  $authProvider  Resolves authenticated subjects from credentials or identifiers.
+     * @param JwtProviderInterface   $jwtProvider   Handles encoding and decoding of JWT strings.
+     * @param ClaimsFactoryInterface $claimsFactory Constructs the claims payload for a given subject.
+     */
     public function __construct(
         private AuthProviderInterface $authProvider,
         private JwtProviderInterface $jwtProvider,
@@ -20,6 +31,16 @@ final readonly class JwtAuth
     ) {
     }
 
+    /**
+     * Validates the provided credentials and issues a JWT string on success.
+     *
+     * @param string $username The username or email to authenticate with.
+     * @param string $password The plain-text password to verify.
+     *
+     * @return string A JWT string for the authenticated subject, as produced by the JwtProviderInterface implementation.
+     *
+     * @throws InvalidCredentialsException If the credentials do not match any known subject.
+     */
     public function attempt(string $username, string $password): string
     {
         $user = $this->authProvider->byCredentials($username, $password);
@@ -31,6 +52,15 @@ final readonly class JwtAuth
         return $this->fromSubject($user);
     }
 
+    /**
+     * Parses the given token, resolves the subject it identifies, and returns it.
+     *
+     * @param string $token A JWT string to authenticate against.
+     *
+     * @return JwtSubjectInterface The authenticated subject identified by the token's subject claim.
+     *
+     * @throws InvalidTokenException If the token is invalid or no subject is found for the encoded identifier.
+     */
     public function authenticate(string $token): JwtSubjectInterface
     {
         $claims = $this->parse($token);
@@ -44,6 +74,15 @@ final readonly class JwtAuth
         return $user;
     }
 
+    /**
+     * Decodes a JWT string and returns a typed Claims object.
+     *
+     * @param string $token The raw JWT string to decode and validate.
+     *
+     * @return Claims The structured and validated claims extracted from the token.
+     *
+     * @throws InvalidTokenException If the token cannot be decoded or does not yield a valid payload.
+     */
     public function parse(string $token): Claims
     {
         $decoded = $this->jwtProvider->decode($token);
@@ -55,6 +94,13 @@ final readonly class JwtAuth
         return Claims::fromArray((array)$decoded);
     }
 
+    /**
+     * Builds a claims payload for the given subject and encodes it as a JWT string.
+     *
+     * @param JwtSubjectInterface $subject The authenticated entity for whom the token is issued.
+     *
+     * @return string A JWT string encoding the subject's claims, as produced by the JwtProviderInterface implementation.
+     */
     private function fromSubject(JwtSubjectInterface $subject): string
     {
         $claims = $this->claimsFactory->forSubject($subject);

@@ -6,8 +6,25 @@ namespace AndrewDyer\JwtAuth;
 
 use AndrewDyer\JwtAuth\Exceptions\InvalidTokenException;
 
+/**
+ * Represents the decoded payload of a JWT, encapsulating all standard
+ * registered claims alongside any custom (application-defined) claims.
+ *
+ * Instances are immutable; all properties are publicly readable but
+ * cannot be modified after construction.
+ */
 final readonly class Claims
 {
+    /**
+     * @param string               $iss    The issuer of the token — identifies the principal that issued the JWT.
+     * @param string|null          $aud    The intended audience of the token, or null if unrestricted.
+     * @param int                  $iat    Unix timestamp at which the token was issued.
+     * @param int                  $nbf    Unix timestamp before which the token must not be accepted.
+     * @param int                  $exp    Unix timestamp at which the token expires.
+     * @param string               $jti    A unique token identifier, typically used to prevent replay attacks.
+     * @param int|string           $sub    The subject of the token — the authenticated entity's unique identifier.
+     * @param array<string, mixed> $custom Additional application-defined claims to include in the payload.
+     */
     public function __construct(
         public string     $iss,
         public ?string    $aud,
@@ -20,6 +37,14 @@ final readonly class Claims
     ) {
     }
 
+    /**
+     * Serialises the claims to an associative array suitable for JWT encoding.
+     *
+     * Standard claims are merged with any custom claims. Null values (such as
+     * a missing audience) are omitted from the resulting array.
+     *
+     * @return array<string, mixed> The JWT payload as a key–value map.
+     */
     public function toArray(): array
     {
         return array_filter(array_merge([
@@ -33,6 +58,19 @@ final readonly class Claims
         ], $this->custom), static fn ($v) => $v !== null);
     }
 
+    /**
+     * Constructs a Claims instance from a raw decoded JWT payload array.
+     *
+     * Validates that all required claims are present and that each carries the
+     * expected type. Keys beyond the standard set are collected as custom claims
+     * and preserved without modification.
+     *
+     * @param array<string, mixed> $data The raw payload array decoded from a JWT.
+     *
+     * @return self A fully populated and validated Claims instance.
+     *
+     * @throws InvalidTokenException If a required claim is absent or any claim value has an invalid type.
+     */
     public static function fromArray(array $data): self
     {
         foreach (['iss', 'iat', 'nbf', 'exp', 'jti', 'sub'] as $key) {
