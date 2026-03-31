@@ -6,13 +6,16 @@ A lightweight, framework-agnostic JWT authentication orchestrator for PHP, built
 
 This library provides a clean, contract-driven approach to JSON Web Token authentication by coordinating token issuance and parsing while delegating token handling, user resolution, and claims generation to user-defined implementations. By relying on simple interfaces, it remains fully framework-agnostic and unopinionated, allowing integration with any authentication system or JWT library.
 
+## 📋 Prerequisites
+
+- **[PHP](https://www.php.net/)**: Version 8.3 or higher is required.
+- **[Composer](https://getcomposer.org/)**: Dependency management tool for PHP.
+
 ## 📥 Installation
 
 ```bash
 composer require andrewdyer/jwt-auth
 ```
-
-Requires PHP 8.3 or newer.
 
 ## 🚀 Getting Started
 
