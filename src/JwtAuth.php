@@ -32,12 +32,12 @@ final readonly class JwtAuth
     }
 
     /**
-     * Validates the provided credentials and issues a signed JWT on success.
+     * Validates the provided credentials and issues a JWT string on success.
      *
      * @param string $username The username or email to authenticate with.
      * @param string $password The plain-text password to verify.
      *
-     * @return string A signed JWT string for the authenticated subject.
+     * @return string A JWT string for the authenticated subject, as produced by the JwtProviderInterface implementation.
      *
      * @throws InvalidCredentialsException If the credentials do not match any known subject.
      */
@@ -55,7 +55,7 @@ final readonly class JwtAuth
     /**
      * Parses the given token, resolves the subject it identifies, and returns it.
      *
-     * @param string $token A signed JWT string to authenticate against.
+     * @param string $token A JWT string to authenticate against.
      *
      * @return JwtSubjectInterface The authenticated subject identified by the token's subject claim.
      *
@@ -95,11 +95,11 @@ final readonly class JwtAuth
     }
 
     /**
-     * Builds a claims payload for the given subject and encodes it as a signed JWT string.
+     * Builds a claims payload for the given subject and encodes it as a JWT string.
      *
      * @param JwtSubjectInterface $subject The authenticated entity for whom the token is issued.
      *
-     * @return string A signed JWT string encoding the subject's claims.
+     * @return string A JWT string encoding the subject's claims, as produced by the JwtProviderInterface implementation.
      */
     private function fromSubject(JwtSubjectInterface $subject): string
     {
