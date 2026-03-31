@@ -27,13 +27,22 @@ final class ArrayJwtProvider implements JwtProviderInterface
     /**
      * Decodes a base64-encoded JSON token and returns its payload as a plain object.
      *
+     * Returns null if the input is not valid base64, which causes JwtAuth::parse()
+     * to raise InvalidTokenException deterministically.
+     *
      * @param string $token The base64-encoded JSON string to decode.
      *
-     * @return mixed The decoded payload, typically a stdClass object.
+     * @return mixed The decoded payload as a stdClass object, or null on invalid input.
      */
     public function decode(string $token): mixed
     {
-        return json_decode(base64_decode($token));
+        $decoded = base64_decode($token, true);
+
+        if ($decoded === false) {
+            return null;
+        }
+
+        return json_decode($decoded);
     }
 
     /**
