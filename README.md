@@ -1,3 +1,5 @@
+![JWT Auth](https://public-assets.andrewdyer.rocks/images/covers/jwt-auth.png)
+
 # JWT Auth
 
 A framework-agnostic PHP JWT authentication library for managing tokens, built around contracts for user resolution and claims generation.
