@@ -1,5 +1,12 @@
 ![JWT Auth](https://public-assets.andrewdyer.rocks/images/covers/jwt-auth.png)
 
+<p align="center">
+  <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/v/stable?style=for-the-badge" alt="Latest Stable Version"></a>
+  <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/downloads?style=for-the-badge" alt="Total Downloads"></a>
+  <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/license?style=for-the-badge" alt="License"></a>
+  <a href="https://packagist.org/packages/andrewdyer/jwt-auth"><img src="https://poser.pugx.org/andrewdyer/jwt-auth/require/php?style=for-the-badge" alt="PHP Version Required"></a>
+</p>
+
 # JWT Auth
 
 A framework-agnostic PHP JWT authentication library for managing tokens, built around contracts for user resolution and claims generation.
