@@ -4,6 +4,18 @@
   "keywords": ["php", "framework-agnostic", "jwt", "authentication", "tokens", "security"],
   "type": "library",
   "license": "MIT",
+  "authors": [
+    {
+      "name": "Andrew Dyer",
+      "homepage": "https://andrewdyer.rocks",
+      "role": "Developer"
+    }
+  ],
+  "homepage": "https://github.com/andrewdyer/jwt-auth",
+  "support": {
+    "issues": "https://github.com/andrewdyer/jwt-auth/issues",
+    "source": "https://github.com/andrewdyer/jwt-auth"
+  },
   "autoload": {
     "psr-4": {
       "AndrewDyer\\JwtAuth\\": "src/"
